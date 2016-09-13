@@ -39,6 +39,7 @@ export default class SearchBar extends Component {
           };
           markers.push(marker);
         });
+        console.log('fetching')
         this.props.setMarkers(markers);
       });
     }).catch((error) => {
