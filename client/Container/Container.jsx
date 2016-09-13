@@ -141,5 +141,5 @@ export class Container extends React.Component {
 // the Container component is wrapped with it
 // this allows the use of google maps api functions
 export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_MAPS_API_KEY
+  apiKey: 'AIzaSyApsG0G4LYuhs4JegxD1BsJDtrT20J-wPI'//process.env.GOOGLE_MAPS_API_KEY
 })(Container);
