@@ -3,7 +3,7 @@
 let request = require('request');
 let rp = require('request-promise');
 
-let API_KEY = process.env.GOOGLE_PLACES_API_KEY;
+let API_KEY = 'AIzaSyDDYVGuQrm5ZXmjo7p8aMYQiPlrZkwgfXQ' //process.env.GOOGLE_PLACES_API_KEY;
 
 module.exports = {
   googlePlacesApiCall: (obj) => {
