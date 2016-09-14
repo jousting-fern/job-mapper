@@ -3,18 +3,18 @@ import React, {PropTypes, Component} from 'react';
 export default class Signin extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentUsername: '',
-      currentPassword: '',
-      message: '' // This will display the status message to the user (depending on whether passwords match up, correct username entered, etc)
-    };
+    // this.state = {
+    //   currentUsername: '',
+    //   currentPassword: '',
+    //   message: '' // This will display the status message to the user (depending on whether passwords match up, correct username entered, etc)
+    // };
 
-    this.handleUsernameInput = this.handleUsernameInput.bind(this);
-    this.handlePasswordInput = this.handlePasswordInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.rejectSignInWrongPassword = this.rejectSignInWrongPassword.bind(this);
-    this.rejectSignInWrongUsername = this.rejectSignInWrongUsername.bind(this);
-    this.handleSuccess = this.handleSuccess.bind(this);
+    // this.handleUsernameInput = this.handleUsernameInput.bind(this);
+    // this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.rejectSignInWrongPassword = this.rejectSignInWrongPassword.bind(this);
+    // this.rejectSignInWrongUsername = this.rejectSignInWrongUsername.bind(this);
+    // this.handleSuccess = this.handleSuccess.bind(this);
   }
 
   rejectSignInWrongPassword() {
