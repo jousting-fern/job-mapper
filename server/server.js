@@ -25,7 +25,7 @@ app.use(favicon(__dirname + '/../client/public/favicon.ico'));
 
 require('./routes.js')(app, express);
 
-let port = process.env.PORT || 3000;
+let port = 3000;
 app.listen(port, () => {
   console.log('Connected on port 3000');
 });
