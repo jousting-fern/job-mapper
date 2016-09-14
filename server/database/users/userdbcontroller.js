@@ -2,6 +2,7 @@
 
 let User = require('./userschema.js');
 let bcrypt = require('bcryptjs');
+const OAuth2 = require('googleapis').auth.OAuth2;
 
 module.exports = {
 
@@ -39,10 +40,13 @@ module.exports = {
   },
 
   signIn: (req, res) => {
-    var username = req.body.username;
-    var password = req.body.password;
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(password, salt);
+    // var username = req.body.username;
+    // var password = req.body.password;
+    // var salt = bcrypt.genSaltSync(10);
+    // var hash = bcrypt.hashSync(password, salt);
+
+    let OAuth2Client = new OAuth2(window.CLIENT_ID, window.CLIENT_SECRET, 'http://localhost:3000/callback');
+
 
     User.findOne({ username: username }, (err, foundUser) => {
       if (err) { return handleError(err); }
