@@ -9,6 +9,10 @@ module.exports = (app, express) => {
     dbController.retrieveAll(req, res); // Requests for data go to database
   });
 
+  app.post('/cities', (req, res) => {
+    res.send(JSON.stringify(['san francisco', 'los angeles', 'san jose', 'san diego', 'new york', 'austin', 'boston', 'denver', 'seattle', 'chicago']));
+  });
+
   app.post('/users', (req, res) => {
     userdbController.addOne(req, res);
   });
