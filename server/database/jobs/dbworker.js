@@ -13,12 +13,12 @@ const db = mongoose.connect(mongoUri);
 
 // Query variables
 const limit = 25;
-const city = 'san francisco';
-const listOfJobsToPull = ['', 'javascript', 'software engineer', 'back end', 'front end'];
+const cities = ['san francisco']; //, 'los angeles', 'san jose', 'san diego', 'new york', 'austin', 'boston', 'denver', 'seattle', 'chicago'];
+const listOfJobsToPull = [''];
 const timeToWaitBetweenCalls = 1000;
 const startingNumber = 0;
 
-var pullData = (jobQueryString, cb) => {
+var pullData = (cityQueryString, cb) => {
   let startNumber = startingNumber;
   let cont = true;
   whilst( // Async while loop
@@ -26,13 +26,14 @@ var pullData = (jobQueryString, cb) => {
     () => cont, // This is the test it does to see if it ends the while loop
     (callback) => {
       // Build Indeed API query
-      let query = indeed.queryBuilder(jobQueryString, city, limit.toString(), startNumber.toString());
+      let query = indeed.queryBuilder('', cityQueryString, limit.toString(), startNumber.toString());
       console.log('Indeed API Query: ', query);
       controller.indeedApiCall(query)
         .then((result) => { // Make call to Indeed API
           if (startNumber + 1 !== result.start) {
             cont = false;
           } else {
+            //console.log(result);
             result.results.forEach((item) => {
               Job.findOne({ jobkey: item.jobkey })
                 .then((job) => {
@@ -71,6 +72,11 @@ var pullData = (jobQueryString, cb) => {
 };
 
 // Loop over list of queries
-each(listOfJobsToPull, (job, callback) => {
-  pullData(job, callback);
-});
+each(cities, (city, callback) => {
+  pullData(city, callback);
+});  
+
+
+
+
+

@@ -49,9 +49,11 @@ export default class SearchBar extends Component {
 
   handleJobSearch(e) {
     this.setState({currentJob: e.target.value});
+    console.log('jobbing')
   }
 
   handleCitySearch(e) {
+    console.log('searching')
     this.setState({currentCity: e.target.value});
   }
 

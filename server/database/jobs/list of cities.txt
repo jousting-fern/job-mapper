@@ -1,0 +1,22 @@
+san francisco
+los angeles
+san jose
+san diego
+new york
+austin
+boston
+denver
+seattle
+chicago
+
+
+
+
+philadelphia
+phoenix
+san antonio
+salt lake city
+washington dc
+raleigh-durham
+Minneapolis-St. Paul
+st louis
