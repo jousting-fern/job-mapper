@@ -129,7 +129,7 @@ export default class ReactMap extends Component {
       <GoogleMapLoader
         query={{ libraries: "geometry,drawing,places,visualization" }}
         containerElement={
-          <div
+          <div className="mapContainer"
             {...this.props}
             style={{
               height: `100%`,
