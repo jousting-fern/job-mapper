@@ -5,14 +5,14 @@ export default class LoginButton extends React.Component {
     super()
   }
 
-  onSignIn (googleUser) {
-    console.log('trying');
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail());
-  }
+  // onSignIn (googleUser) {
+  //   console.log('trying');
+  //   var profile = googleUser.getBasicProfile();
+  //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //   console.log('Name: ' + profile.getName());
+  //   console.log('Image URL: ' + profile.getImageUrl());
+  //   console.log('Email: ' + profile.getEmail());
+  // }
 
   renderGoogleLoginButton () {
     console.log('rendering google signin button')
@@ -22,7 +22,7 @@ export default class LoginButton extends React.Component {
       'height': 50,
       'longtitle': true,
       'theme': 'light',
-      'onsuccess': this.onSignIn
+      'onsuccess': this.props.onSignIn
     })
   }
 
