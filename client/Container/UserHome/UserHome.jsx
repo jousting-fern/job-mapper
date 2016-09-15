@@ -1,11 +1,12 @@
 import React, {PropTypes, Component} from 'react';
 import SavedJob from './SavedJob.jsx';
 import LoginButton from './Login.jsx';
+import SkyLight from 'react-skylight';
 
-export default class UserHome extends Component {
+export default class UserHome extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
       jobs: [],
       username: ''
     };
@@ -136,6 +137,14 @@ export default class UserHome extends Component {
           <hr></hr>
           <h2>Saved Jobs</h2>
           <hr></hr>
+          <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
+           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
+            <form>
+              Name:<input type='text'/>
+              Place:<input type='text'/>
+              Thing:<input type='text'/>
+            </form>
+           </SkyLight>
         </div>
         <div className='savedjobs'>
           {Jobs}
@@ -144,3 +153,4 @@ export default class UserHome extends Component {
     );
   }
 }
+
