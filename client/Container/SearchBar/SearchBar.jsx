@@ -35,7 +35,8 @@ export default class SearchBar extends Component {
             jobtitle: job.jobtitle,
             snippet: job.snippet,
             url: job.url,
-            jobkey: job.jobkey
+            jobkey: job.jobkey,
+            showInfo: false
           };
           markers.push(marker);
         });
