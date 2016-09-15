@@ -17,7 +17,7 @@ export class Container extends React.Component {
       selectedPlace: {},
       markers: [],
       register: false,
-      loggedIn: false,
+      loggedIn: true,
       username: ''
     };
     this.onMarkerClick = this.onMarkerClick.bind(this);

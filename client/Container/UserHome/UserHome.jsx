@@ -1,18 +1,33 @@
 import React, {PropTypes, Component} from 'react';
 import SavedJob from './SavedJob.jsx';
+import LoginButton from './Login.jsx';
 
 export default class UserHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobs: []
+      jobs: [],
+      username: ''
     };
     this.removeJob = this.removeJob.bind(this);
   }
-
+  
+  onSignIn (googleUser) {
+    console.log('trying');
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+    this.setState({
+      username: profile.getEmail()
+    })
+    console.log(this.state.username)
+  }
+  
   // displays saved jobs on login
   componentDidMount() {
-    this.getJobs();
+    window.addEventListener('google-loaded', this.getJobs.bind(this));
   }
 
   // display saved jobs for logged in user
@@ -21,13 +36,15 @@ export default class UserHome extends Component {
     let myHeaders = new Headers({
       'Content-Type': 'application/json; charset=utf-8'
     });
+    console.log(this.state.username)
     let options = {
       method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify({ username: this.props.username}),
+      body: JSON.stringify({ username: this.state.username}),
     };
     fetch('/getJobs', options).
     then((response) => {
+      console.log(response.body)
       return response.json().then((data) => {
         // creates array of job objects from returned data
         var jobs = [];
@@ -65,7 +82,7 @@ export default class UserHome extends Component {
     let options = {
       method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify({ job: job, username: this.props.username}),
+      body: JSON.stringify({ job: job, username: this.state.username}),
     };
     fetch('/addJob', options)
     .then(() => {
@@ -85,7 +102,7 @@ export default class UserHome extends Component {
       method: 'POST',
       headers: myHeaders,
       // jobkey is passed in to find correct job in savedjobs array
-      body: JSON.stringify({jobkey: jobkey, username: this.props.username})
+      body: JSON.stringify({jobkey: jobkey, username: this.state.username})
     };
     fetch('/removeJob', options)
     .then(() => {
@@ -113,9 +130,8 @@ export default class UserHome extends Component {
         ));
     return (
       <div className='sidebar'>
+      <LoginButton onSignIn={this.onSignIn.bind(this)}/>
         <div className='sidebarheaders'>
-          <a onClick={this.props.LogOutUser.bind(this)} href='#'>Logout</a>
-          <hr></hr>
             <a onClick={this.addJob.bind(this)} href='#'>Save Selected Job</a>
           <hr></hr>
           <h2>Saved Jobs</h2>
