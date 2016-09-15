@@ -38,31 +38,23 @@ export default class ReactMap extends Component {
   
   // this fetches city list, dynamically populating dropdown selector with options
   componentWillMount () {
-    $.ajax({
+    let options = {
       method: 'GET',
-      url: '/cities',
-      success: (data) => {
-        console.log('result of city call success is: ', data);
-
-        console.log('YOU MADE A SUCCESSFUL API CALL');
-
-        // iterate through story objects and assign random category and rating
+      headers: myHeaders,
+    };
+    fetch('/cities', options).then((response) => {
+      return response.json().then((data) => {
+        console.log('DATA ON FETCH IS', data);
+        var cities = [];
         data.forEach((city) => {
-          // const testObj = storyObj;
-          // const category1 = getCategory();
-          // const rating = getRating();
-          // testObj.newsCategory = category1;
-          // testObj.rating = rating;
-          console.log('and here is a city in our DB:', city);
+          cities.push(city);
         });
-
-        // this.setState({ data, numBubbles: data.length });
-      },
-
-      error: (err) => {
-        console.log('getNews err ', err);
-      }
-    }); 
+        console.log('fetching');
+        // this.props.setMarkers(markers);
+      });
+    }).catch((error) => {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
   }
 
 
