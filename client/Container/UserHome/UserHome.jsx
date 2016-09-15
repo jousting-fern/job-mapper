@@ -11,6 +11,10 @@ export default class UserHome extends React.Component {
       username: '',
       avatar: '',
       firstname: ''
+      city:'',
+      job: 'javascript',
+      currentJob:'a',
+      currentCity:''
     };
     this.removeJob = this.removeJob.bind(this);
   }
@@ -118,6 +122,48 @@ export default class UserHome extends React.Component {
     });
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
+    let options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify({job: this.state.currentJob, city: this.state.currentCity})
+    };
+    fetch('/indeed', options).then((response) => {
+      return response.json().then((data) => {
+        var markers = [];
+        data.forEach((job) => {
+          var marker = {
+            lat: job.latitude,
+            lng: job.longitude,
+            company: job.company,
+            jobtitle: job.jobtitle,
+            snippet: job.snippet,
+            url: job.url,
+            jobkey: job.jobkey,
+            showInfo: false
+          };
+          markers.push(marker);
+        });
+        console.log('fetching')
+        this.props.setMarkers(markers);
+      });
+    }).catch((error) => {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
+  }
+
+  handleJobSearch(e) {
+    this.setState({currentJob: e.target.value});
+    console.log('jobbing')
+  }
+
+  handleCitySearch(e) {
+    console.log('searching')
+    this.setState({currentCity: e.target.value});
+  }
+
 
   render() {
     // puts the current state of map markers into an array that can be rendered
@@ -147,11 +193,10 @@ export default class UserHome extends React.Component {
           <hr></hr>
           <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
            <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
-            <form>
-              Name:<input type='text'/>
-              Place:<input type='text'/>
-              Thing:<input type='text'/>
-            </form>
+          <form onSubmit={this.handleSubmit.bind(this)}>
+            <input className='search-box' type="text" name="job" value={this.state.currentJob} placeholder='Search Job
+            ' onChange={this.handleJobSearch}/>
+          </form>
            </SkyLight>
         </div>
         <div className='savedjobs'>
