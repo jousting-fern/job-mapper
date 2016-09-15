@@ -1,7 +1,7 @@
 import { default as React, Component } from "react";
 //import { default as update } from "react-addons-update";
 
-import { default as canUseDOM } from "can-use-dom";
+//import { default as canUseDOM } from "can-use-dom";
 import { default as _ } from "lodash";
 
 import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
@@ -9,6 +9,7 @@ import { triggerEvent } from "react-google-maps/lib/utils";
 import SearchBar from './SearchBar/SearchBar.jsx';
 import UserSideBar from './UserSideBar/UserSideBar.jsx';
 import UserHome from './UserHome/UserHome.jsx';
+import InfoBox from "react-google-maps/lib/addons/InfoBox";
 /* 
  * This is the modify version of:
  * https://developers.google.com/maps/documentation/javascript/examples/event-arguments
