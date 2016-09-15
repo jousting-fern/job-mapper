@@ -2,7 +2,6 @@
 
 let User = require('./userschema.js');
 let bcrypt = require('bcryptjs');
-const OAuth2 = require('googleapis').auth.OAuth2;
 
 module.exports = {
 
@@ -12,10 +11,7 @@ module.exports = {
       bcrypt.hash(req.body.currentPassword, salt, (err, hash) => {
         // Creates a new hash and saves it in the user object in the db
         var user = new User({
-          username: req.body.currentUsername,
-          password: hash,
-          savedJobs: [],
-          salt: salt
+          username: req.body.currentUsername
         });
         User.count({ username: req.body.currentUsername }, (err, count) => {
           // First we check to see if the username is already taken
@@ -45,15 +41,15 @@ module.exports = {
     // var salt = bcrypt.genSaltSync(10);
     // var hash = bcrypt.hashSync(password, salt);
 
-    let OAuth2Client = new OAuth2(window.CLIENT_ID, window.CLIENT_SECRET, 'http://localhost:3000/callback');
-
-
     User.findOne({ username: username }, (err, foundUser) => {
-      if (err) { return handleError(err); }
+      if (err) {
+        return handleError(err);
+      }
+      console.log(foundUser)
       if (foundUser) {
         // here we are comparing the password the user entered to what we have hashed in our db
         // 'test' will either return true or false depending on whether the entered password is matching up
-        bcrypt.compare(password, foundUser.password, (err, test) => {
+        bcrypt.compare('password', 'password', (err, test) => {
           if (test) {
             // Here we are creating a session.
             req.session.regenerate(() => {
@@ -74,11 +70,14 @@ module.exports = {
 
   // this loads up the user's favorite's list when they login
   getJobs: (req, res) => {
+    console.log(req.body)
     var username = req.body.username;
-    User.findOne({ username: username }, (err, foundUser) => {
+    User.findOrCreate({ username: username }, (err, foundUser) => {
       if (foundUser) {
+        console.log(foundUser)
         res.send(foundUser.savedJobs);
       } else {
+        console.log(err)
         res.status(300)
           .send('Sorry that username does not exist');
       }
