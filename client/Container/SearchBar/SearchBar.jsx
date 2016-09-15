@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react';
+import GeoSelector from './GeoSelector.jsx';
 
 export default class SearchBar extends Component {
 
@@ -67,6 +68,9 @@ export default class SearchBar extends Component {
             <input className='search-box' type="text" name="job" value={this.state.currentJob} placeholder='Search Job
             ' onChange={this.handleJobSearch}/>
           </form>
+        </div>
+        <div className='geoSelector'>
+          <GeoSelector />
         </div>
         {/* <div className='searchLabel'>
         City:<input type="text" name="city" value={this.state.currentCity} onChange={this.handleCitySearch} />

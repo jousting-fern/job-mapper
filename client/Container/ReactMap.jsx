@@ -9,7 +9,9 @@ import { triggerEvent } from "react-google-maps/lib/utils";
 import SearchBar from './SearchBar/SearchBar.jsx';
 import UserSideBar from './UserSideBar/UserSideBar.jsx';
 import UserHome from './UserHome/UserHome.jsx';
+import D3Window from './D3Window.jsx';
 import InfoBox from "react-google-maps/lib/addons/InfoBox";
+
 /* 
  * This is the modify version of:
  * https://developers.google.com/maps/documentation/javascript/examples/event-arguments
@@ -17,8 +19,6 @@ import InfoBox from "react-google-maps/lib/addons/InfoBox";
  * Add <script src="https://maps.googleapis.com/maps/api/js"></script> to your HTML to provide google.maps reference
  */
 export default class ReactMap extends Component {
-
-
 
   constructor(props, context) {
     super(props, context);
@@ -34,6 +34,35 @@ export default class ReactMap extends Component {
     this.setMarkers = this.setMarkers.bind(this);
     this.LogInUser = this.LogInUser.bind(this);
     this.LogOutUser = this.LogOutUser.bind(this);
+  }
+  
+  // this fetches city list, dynamically populating dropdown selector with options
+  componentWillMount () {
+    $.ajax({
+      method: 'GET',
+      url: '/cities',
+      success: (data) => {
+        console.log('result of city call success is: ', data);
+
+        console.log('YOU MADE A SUCCESSFUL API CALL');
+
+        // iterate through story objects and assign random category and rating
+        data.forEach((city) => {
+          // const testObj = storyObj;
+          // const category1 = getCategory();
+          // const rating = getRating();
+          // testObj.newsCategory = category1;
+          // testObj.rating = rating;
+          console.log('and here is a city in our DB:', city);
+        });
+
+        // this.setState({ data, numBubbles: data.length });
+      },
+
+      error: (err) => {
+        console.log('getNews err ', err);
+      }
+    }); 
   }
 
 
