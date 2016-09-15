@@ -7,13 +7,14 @@ let jobSchema = mongoose.Schema({
   company: { type: String },
   city: { type: String },
   state: { type: String },
-  date: { type: Date },
+  date: { type: Date, default: Date.now() },
   snippet: { type: String },
   url: { type: String },
   jobkey: { type: String, unique: true },
   latitude: { type: Number },
   longitude: { type: Number },
-  results: { type: Object }
+  results: { type: Object },
+  user: { type: String, default: 'none' }
 });
 
 let Job = mongoose.model('Job', jobSchema);

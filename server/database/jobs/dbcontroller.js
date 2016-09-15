@@ -3,6 +3,10 @@
 let Job = require('./schema.js');
 let controller = require('../../controller.js');
 
+var salt = function (chars) {
+  return Math.ceil(Math.random() * (Math.pow(36, chars) - Math.pow(36, chars - 1)) + Math.pow(36, chars - 1)).toString(36)
+};
+
 module.exports = {
   retrieveAll: (req, res) => {
     var job = new RegExp('', 'i');
@@ -15,5 +19,26 @@ module.exports = {
         res.status(200)
           .send(JSON.stringify(results));
       });
+  },
+  
+  userCreate: (req, res) => {
+    
+    Job.create({
+      jobtitle: req.body.jobTitle,
+      company: req.body.company,
+      city: req.body.city,
+      state: req.body.state,
+      snippet: req.body.snippet,
+      url: req.body.url,
+      results: {},
+      jobkey: salt(20),
+      user: req.body.email
+    })
+    .then(function () {
+      res.sendStatus(201);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
   }
 };
