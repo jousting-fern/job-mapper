@@ -10,6 +10,7 @@ import SearchBar from './SearchBar/SearchBar.jsx';
 import UserSideBar from './UserSideBar/UserSideBar.jsx';
 import UserHome from './UserHome/UserHome.jsx';
 import D3Window from './D3Window.jsx';
+
 /* 
  * This is the modify version of:
  * https://developers.google.com/maps/documentation/javascript/examples/event-arguments
@@ -149,54 +150,50 @@ export default class ReactMap extends Component {
 
     return (
       <div>
-        <SearchBar setMarkers={this.setMarkers}/>
-        <div className='overallContainer'>
-          <UserHome selected={this.state.selectedPlace} username={this.state.username} LogOutUser={this.LogOutUser}/>
-          <GoogleMapLoader
-            query={{ libraries: "geometry,drawing,places,visualization" }}
-            containerElement={
-              <div className="mapContainer"
-                {...this.props}
-                style={{
-                  height: `100%`,
-                }}
-              />
-            }
-            googleMapElement={
-              <GoogleMap
-                ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
-                defaultZoom={3}
-                defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
-                onClick={this.handleMapClick.bind(this)}
-                defaultOptions={{
-                  styles: [{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#7f2200"},{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#87ae79"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#495421"}]},{"featureType":"administrative","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"},{"visibility":"on"},{"weight":4.1}]},{"featureType":"administrative.neighborhood","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#abce83"}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"lightness":"25"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#97b771"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#7B8758"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"color":"#EBF4A4"}]},{"featureType":"poi.attraction","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#8dab68"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#5B5B3F"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ABCE83"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#EBF4A4"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#9BBF72"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#A4C67D"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#aee2e0"}]}],
-                  mapTypeId: 'terrain'
-                }}
-              >
-                {this.state.markers.map((marker, index) => {
-                  return (
-                    <Marker
-                      key={index}
-                      onClick={this.onMarkerClick}
-                      company={marker['company']}
-                      jobtitle={marker['jobtitle']}
-                      snippet={marker['snippet']}
-                      url={marker['url']}
-                      jobkey={marker['jobkey']}
-                      position={{lat: marker['lat'], lng: marker['lng']}}
-                      {...marker}
-                      onRightclick={this.handleMarkerRightclick.bind(this, index)}
-                    />
-                  );
-                })}
-              </GoogleMap>
-            }
+      <SearchBar setMarkers={this.setMarkers}/>
+      <div className='overallContainer'>
+      <UserHome selected={this.state.selectedPlace} username={this.state.username} LogOutUser={this.LogOutUser}/>
+      <GoogleMapLoader
+        query={{ libraries: "geometry,drawing,places,visualization" }}
+        containerElement={
+          <div className="mapContainer"
+            {...this.props}
+            style={{
+              height: `100%`,
+            }}
           />
-          <div className ="D3Window">
-            <h2 className="testing">D3 VIZ WILL LIVE HERE!</h2>
-            <D3Window />
-          </div>
-        </div>
+        }
+        googleMapElement={
+          <GoogleMap
+            ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
+            defaultZoom={3}
+            defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+            onClick={this.handleMapClick.bind(this)}
+            defaultOptions={{
+              styles: [{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#7f2200"},{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#87ae79"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#495421"}]},{"featureType":"administrative","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"},{"visibility":"on"},{"weight":4.1}]},{"featureType":"administrative.neighborhood","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#abce83"}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"lightness":"25"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#97b771"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#7B8758"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"color":"#EBF4A4"}]},{"featureType":"poi.attraction","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#8dab68"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#5B5B3F"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ABCE83"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#EBF4A4"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#9BBF72"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#A4C67D"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#aee2e0"}]}],
+              mapTypeId: 'terrain'
+            }}
+          >
+            {this.state.markers.map((marker, index) => {
+              return (
+                <Marker
+                  key={index}
+                  onClick={this.onMarkerClick}
+                  company={marker['company']}
+                  jobtitle={marker['jobtitle']}
+                  snippet={marker['snippet']}
+                  url={marker['url']}
+                  jobkey={marker['jobkey']}
+                  position={{lat: marker['lat'], lng: marker['lng']}}
+                  {...marker}
+                  onRightclick={this.handleMarkerRightclick.bind(this, index)}
+                />
+              );
+            })}
+          </GoogleMap>
+        }
+      />
+      </div>
       </div>
     );
   }
