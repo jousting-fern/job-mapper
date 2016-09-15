@@ -13,7 +13,7 @@ const db = mongoose.connect(mongoUri);
 
 // Query variables
 const limit = 25;
-const cities = ['san francisco']; //, 'los angeles', 'san jose', 'san diego', 'new york', 'austin', 'boston', 'denver', 'seattle', 'chicago'];
+const cities = ['san francisco', 'los angeles', 'san jose', 'san diego', 'new york', 'austin', 'boston', 'denver', 'seattle', 'chicago'];
 const listOfJobsToPull = [''];
 const timeToWaitBetweenCalls = 1000;
 const startingNumber = 0;

@@ -4,7 +4,7 @@ import { default as React, Component } from "react";
 //import { default as canUseDOM } from "can-use-dom";
 import { default as _ } from "lodash";
 
-import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
+import { GoogleMapLoader, GoogleMap, InfoWindow, Marker } from "react-google-maps";
 import { triggerEvent } from "react-google-maps/lib/utils";
 import SearchBar from './SearchBar/SearchBar.jsx';
 import UserSideBar from './UserSideBar/UserSideBar.jsx';
@@ -23,7 +23,6 @@ export default class ReactMap extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
       markers: [],
@@ -32,25 +31,11 @@ export default class ReactMap extends Component {
       username: ''
     };
 
-    this.onMarkerClick = this.onMarkerClick.bind(this);
     this.setMarkers = this.setMarkers.bind(this);
     this.LogInUser = this.LogInUser.bind(this);
     this.LogOutUser = this.LogOutUser.bind(this);
   }
 
-  componentDidMount() {
-    if (!canUseDOM) {
-      return;
-    }
-    window.addEventListener(`resize`, this.handleWindowResize);
-  }
-
-  componentWillUnmount() {
-    if (!canUseDOM) {
-      return;
-    }
-    window.removeEventListener(`resize`, this.handleWindowResize);
-  }
 
 
   /*
@@ -78,17 +63,27 @@ export default class ReactMap extends Component {
     }
   }
 
-  onMarkerClick(props, marker, e) {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
+  handleMarkerClick(marker) {
+    marker.showInfo = true;
+    this.setState(this.state);
+    this.setSelected(marker);
+  }
+  
+  handleMarkerClose(marker) {
+    marker.showInfo = false;
+    this.setState(this.state);
   }
 
   setMarkers(markerArray) {
     this.setState({
       markers: markerArray
+    });
+  }
+
+  setSelected(marker) {
+    
+    this.setState({
+      selectedPlace: marker
     });
   }
 
@@ -102,20 +97,24 @@ export default class ReactMap extends Component {
     this.setState({username: ''});
   }
 
-  handleMarkerRightclick(index, event) {
-    /*
-     * All you modify is data, and the view is driven by data.
-     * This is so called data-driven-development. (And yes, it's now in
-     * web front end and even with google maps API.)
-     */
-    let { markers } = this.state;
-    markers = update(markers, {
-      $splice: [
-        [index, 1],
-      ],
-    });
-    this.setState({ markers });
+  renderInfoWindow(ref, marker) {
+    return (
+
+      
+      //You can nest components inside of InfoWindow!
+      <InfoWindow 
+        key={`${ref}_info_window`}
+        onCloseclick={this.handleMarkerClose.bind(this, marker)} >
+          <div className='infowindow'>
+              <h3>{marker.company}</h3>
+              <h4>{marker.jobtitle}</h4>
+              <p>{marker.snippet}</p>
+              <div><a href={marker.url}>Click to View</a></div> 
+          </div>        
+      </InfoWindow>
+      );
   }
+
 
   render() {
 
@@ -138,8 +137,8 @@ export default class ReactMap extends Component {
         googleMapElement={
           <GoogleMap
             ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
-            defaultZoom={3}
-            defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+            defaultZoom={4}
+            defaultCenter={{ lat:  39.5, lng: -98.35 }}
             onClick={this.handleMapClick.bind(this)}
             defaultOptions={{
               styles: [{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#7f2200"},{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#87ae79"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#495421"}]},{"featureType":"administrative","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"},{"visibility":"on"},{"weight":4.1}]},{"featureType":"administrative.neighborhood","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#abce83"}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"lightness":"25"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#97b771"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#7B8758"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"color":"#EBF4A4"}]},{"featureType":"poi.attraction","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#8dab68"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#5B5B3F"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ABCE83"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#EBF4A4"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#9BBF72"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#A4C67D"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#aee2e0"}]}],
@@ -147,19 +146,20 @@ export default class ReactMap extends Component {
             }}
           >
             {this.state.markers.map((marker, index) => {
+              const ref = `marker_${index}`;
+
               return (
                 <Marker
                   key={index}
-                  onClick={this.onMarkerClick}
-                  company={marker['company']}
-                  jobtitle={marker['jobtitle']}
-                  snippet={marker['snippet']}
-                  url={marker['url']}
-                  jobkey={marker['jobkey']}
+                  onClick={this.handleMarkerClick.bind(this, marker)}
+                  key={index}
+                  ref={ref}
                   position={{lat: marker['lat'], lng: marker['lng']}}
                   {...marker}
-                  onRightclick={this.handleMarkerRightclick.bind(this, index)}
-                />
+                >
+                {marker.showInfo ? this.renderInfoWindow(ref, marker) : null}
+                
+                </Marker>
               );
             })}
           </GoogleMap>

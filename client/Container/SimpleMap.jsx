@@ -1,11 +1,4 @@
-import { default as React, Component } from "react";
-//import { default as update } from "react-addons-update";
 
-import { default as canUseDOM } from "can-use-dom";
-import { default as _ } from "lodash";
-
-import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
-import { triggerEvent } from "react-google-maps/lib/utils";
 
 /* 
  * This is the modify version of:
@@ -13,113 +6,137 @@ import { triggerEvent } from "react-google-maps/lib/utils";
  *
  * Add <script src="https://maps.googleapis.com/maps/api/js"></script> to your HTML to provide google.maps reference
  */
-export default class SimpleMap extends Component {
+import { default as React, Component } from "react";
 
+import { GoogleMapLoader, GoogleMap, InfoWindow, Marker } from "react-google-maps";
 
+/*
+ *
+ *  Add <script src="https://maps.googleapis.com/maps/api/js"></script>
+ *  to your HTML to provide google.maps reference
+ *
+ *  @author: @chiwoojo
+ */
+export default class SimpleMap extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-    this.handleWindowResize = _.throttle(this.handleWindowResize.bind(this), 500);
+  constructor(props) {
+    super(props);
     this.state = {
-    markers: [{
-      position: {
-        lat: 25.0112183,
-        lng: 121.52067570000001,
+      center: {
+        lat: -25.363882,
+        lng: 131.044922,
       },
-      key: `Taiwan`,
-      defaultAnimation: 2,
-    }],
-  }
-  }
-
-  componentDidMount() {
-    if (!canUseDOM) {
-      return;
-    }
-    window.addEventListener(`resize`, this.handleWindowResize);
-  }
-
-  componentWillUnmount() {
-    if (!canUseDOM) {
-      return;
-    }
-    window.removeEventListener(`resize`, this.handleWindowResize);
-  }
-
-  handleWindowResize() {
-    console.log(`handleWindowResize`, this._googleMapComponent);
-    triggerEvent(this._googleMapComponent, `resize`);
-  }
-
-  /*
-   * This is called when you click on the map.
-   * Go and try click now.
-   */
-  handleMapClick(event) {
-    let { markers } = this.state;
-    markers = update(markers, {
-      $push: [
+      
+      //array of objects of markers
+      markers: [
         {
-          position: event.latLng,
-          defaultAnimation: 2,
-          key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
+          position: new google.maps.LatLng(-27.363882, 137.044922),
+          showInfo: false
         },
-      ],
-    });
-    this.setState({ markers });
-
-    if (markers.length === 3) {
-      this.props.toast(
-        `Right click on the marker to remove it`,
-        `Also check the code!`
-      );
-    }
+        {
+          position: new google.maps.LatLng(-23.363882, 129.044922),
+          showInfo: false  
+        }
+      ]
+    };   
   }
-
-  handleMarkerRightclick(index, event) {
-    /*
-     * All you modify is data, and the view is driven by data.
-     * This is so called data-driven-development. (And yes, it's now in
-     * web front end and even with google maps API.)
-     */
-    let { markers } = this.state;
-    markers = update(markers, {
-      $splice: [
-        [index, 1],
-      ],
-    });
-    this.setState({ markers });
+  
+  //Toggle to 'true' to show InfoWindow and re-renders component
+  handleMarkerClick(marker) {
+    marker.showInfo = true;
+    this.setState(this.state);
+  }
+  
+  handleMarkerClose(marker) {
+    marker.showInfo = false;
+    this.setState(this.state);
+  }
+  
+  renderInfoWindow(ref, marker) {
+    
+    return (
+      
+      //You can nest components inside of InfoWindow!
+      <InfoWindow 
+        //key={`${ref}_info_window`}
+        //onCloseclick={this.handleMarkerClose.bind(this, marker)} >
+        >
+        {ref === 'marker_1' ? 
+        
+        <div>
+            <p>Hi</p>
+        </div>  
+        
+        :
+        
+        <div>
+          <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
+            width="16" height="16" viewBox="0 0 16 16">
+            <path d="M3.5 0c-1.7 0-3 1.6-3 3.5 0 1.7 1 3 2.3 3.4l-.5 8c0 
+              .6.4 1 1 1h.5c.5 0 1-.4 1-1L4 7C5.5 6.4 6.5 5 6.5 
+              3.4c0-2-1.3-3.5-3-3.5zm10 0l-.8 5h-.6l-.3-5h-.4L11 
+              5H10l-.8-5H9v6.5c0 .3.2.5.5.5h1.3l-.5 8c0 .6.4 1 1 1h.4c.6 0 
+              1-.4 1-1l-.5-8h1.3c.3 0 .5-.2.5-.5V0h-.4z"/>
+          </svg>
+        </div>
+        
+        }
+      
+      </InfoWindow>
+      
+    );
+    
   }
 
   render() {
+
     return (
+      
       <GoogleMapLoader
         containerElement={
           <div
             {...this.props}
             style={{
-              height: `100%`,
-            }}
-          />
+              height: '100%'
+            }} >
+          </div>
         }
         googleMapElement={
-          <GoogleMap
-            ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
-            defaultZoom={3}
-            defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
-            onClick={this.handleMapClick.bind(this)}
-          >
-            {this.state.markers.map((marker, index) => {
-              return (
-                <Marker
-                  {...marker}
-                  onRightclick={this.handleMarkerRightclick.bind(this, index)}
-                />
+          <GoogleMap 
+            center={this.state.center}
+            defaultZoom={4}
+            ref='map'>
+            
+            {this.state.markers.map((marker, index) => 
+              
+              {
+              
+              const ref = `marker_${index}`;
+              
+              return ( <Marker 
+                key={index}
+                ref={ref}
+                position={marker.position}
+                onClick={this.handleMarkerClick.bind(this, marker)} >
+                
+                {/* 
+                  Show info window only if the 'showInfo' key of the marker is true. 
+                  That is, when the Marker pin has been clicked and 'handleMarkerClick' has been
+                  Successfully fired.
+                */}
+                {marker.showInfo ? this.renderInfoWindow(ref, marker) : null}
+                
+              </Marker>
               );
-            })}
+                
+              }) 
+            } 
+          
           </GoogleMap>
         }
-      />
+      
+      /> //end of GoogleMapLoader
+        
     );
   }
 }
