@@ -93,7 +93,7 @@ module.exports = {
       { $push: {savedJobs: job} },
       (err, model) => {
         if (err) { console.log(err); }
-        res.sendStatus(200);
+        res.sendStatus(201);
       });
   },
 
