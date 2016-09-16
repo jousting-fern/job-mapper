@@ -143,12 +143,10 @@ export default class UserHome extends React.Component {
     var latitude = 0;
     var query = address.split(' ').join('+') + ',+' + city.split(' ').join('+') + ',+' + state.split(' ').join('+');
     console.log('address', query);
-    //'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE';
-
 
     $.ajax({
       method: 'POST',
-      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${query}key=AIzaSyA_6OrEY3wG2SikA7W7VyTT6shK9Li3iKY`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${query}key=${window.geoKey}`,
       success: function(data) {
         console.log('google returns: ', data);
         latitude = data.results[0].geometry.location.lat;
