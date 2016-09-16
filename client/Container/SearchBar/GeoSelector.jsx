@@ -18,11 +18,11 @@ class GeoSelector extends React.Component {
     return (
       <div> 
         <select className="GeoSelector" onChange={this.handleSelection.bind(this)} value={this.state.value}>
-          {this.props.cities.map(function(city)){
+         {/* {this.props.cities.map(function(city)){
             return (
               <CityOption city={city}/>
             )
-          }}
+          }}*/}
           }
         </select>
       </div>
