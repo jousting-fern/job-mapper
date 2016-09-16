@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import LoginButton from './Login.jsx';
-import LoginButton from './Login.jsx';
 // import Signin from './Signin.jsx';
 // import Register from './Register.jsx';
 
