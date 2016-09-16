@@ -29,6 +29,7 @@ export default class ReactMap extends Component {
       register: false,
       loggedIn: false,
       username: '',
+      cities: [],
       chartData: [
         {name: 'Page A', uv: 4000, pv: 1398, amt: 2400},
         {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
@@ -38,7 +39,7 @@ export default class ReactMap extends Component {
         {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
         {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
       ],
-      cities: []
+      cities: [],
     };
 
     this.setMarkers = this.setMarkers.bind(this);
@@ -174,7 +175,8 @@ export default class ReactMap extends Component {
   }
 
 
-  render() {  
+
+  render() {
     return (
       <div>
         <div className='chartDiv'>

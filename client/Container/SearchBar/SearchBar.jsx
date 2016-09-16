@@ -44,10 +44,6 @@ export default class SearchBar extends Component {
           markers.push(marker);
         });
         console.log('fetching');
-<<<<<<< 5db834853fbf5f8e743dc338fea6f91f5b3c83b1
-        // console.log('markers: ', markers);
-=======
->>>>>>> rebase for merge
         this.props.setMarkers(markers);
       });
     }).catch((error) => {
