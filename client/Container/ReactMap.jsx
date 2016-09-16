@@ -49,6 +49,7 @@ export default class ReactMap extends Component {
           console.log('AND HERE IS ANOTHER CITY', city);
           cities.push(city);
         });
+        console.log('CITIES ARRAY IS', cities);
       });
     }).catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);

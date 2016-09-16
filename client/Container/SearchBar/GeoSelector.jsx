@@ -18,9 +18,12 @@ class GeoSelector extends React.Component {
     return (
       <div> 
         <select className="GeoSelector" onChange={this.handleSelection.bind(this)} value={this.state.value}>
-          <option value="Select">Select</option>
-          <option value="Los Angeles">Los Angeles</option>
-          <option value="San Francisco">San Francisco</option>
+          {this.props.cities.map(function(city)){
+            return (
+              <CityOption city={city}/>
+            )
+          }}
+          }
         </select>
       </div>
     );
