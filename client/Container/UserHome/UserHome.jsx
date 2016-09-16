@@ -129,45 +129,56 @@ export default class UserHome extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
-
-    //'http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE';
-    let options = {
+    let geocodeOptions = {
       method: 'POST',
-      headers: myHeaders,
-      body: JSON.stringify({
-        jobTitle: document.getElementById('jobTitle'),
-        company: document.getElementById('company'),
-        address: document.getElementById('address'),
-        city: document.getElementById('city'),
-        state: document.getElementById('state'),
-        snippet: document.getElementById('snippet'),
-        url: document.getElementById('url'),
-        user: document.getElementById('email')
-      })
+      headers: myHeaders
     };
-    fetch('/addUserJob', options).then((response) => {
+    let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
+    var options = {};
+    var longitude = 0;
+    var latitude = 0;
+
+    //'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE';
+
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE', geocodeOptions)
+    .then((response) => {
       return response.json().then((data) => {
-        var markers = [];
-        data.forEach((job) => {
-          var marker = {
-            lat: job.latitude,
-            lng: job.longitude,
-            company: job.company,
-            jobtitle: job.jobtitle,
-            snippet: job.snippet,
-            url: job.url,
-            jobkey: job.jobkey,
-            showInfo: false
-          };
-          markers.push(marker);
+        latitude = data.results[0].location.lat;
+        longitude = data.results[0].location.lng;
+
+        options = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify({
+            latitude: data.results[0].location.lat,
+            longitude: data.results[0].location.lng,
+            jobTitle: document.getElementById('jobTitle'),
+            company: document.getElementById('company'),
+            city: document.getElementById('city'),
+            state: document.getElementById('state'),
+            snippet: document.getElementById('snippet'),
+            url: document.getElementById('url'),
+            user: document.getElementById('email')
+          })
+        };
+      });
+    }).then(fetch('/addUserJob', options).then(() => {
+      return (() => {
+        this.props.setMarkers.push({
+          lat: latitude,
+          lng: longitude,
+          company: document.getElementById('company'),
+          jobtitle: document.getElementById('jobTitle'),
+          snippet: document.getElementById('snippet'),
+          url: document.getElementById('url'),
+          jobkey: Math.ceil(Math.random() * 10000),
+          showInfo: false
         });
-        console.log('fetching')
-        this.props.setMarkers(markers);
       });
     }).catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
-    });
+    })
+  );
   }
 
   handleJobSearch(e) {
