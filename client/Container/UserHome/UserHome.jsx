@@ -3,6 +3,9 @@ import SavedJob from './SavedJob.jsx';
 import LoginButton from './Login.jsx';
 import SkyLight from 'react-skylight';
 
+
+
+
 export default class UserHome extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +13,14 @@ export default class UserHome extends React.Component {
       jobs: [],
       username: '',
       avatar: '',
-      firstname: ''
+      firstname: '',
+      jobTitle: '',
+      company: '',
+      city: '',
+      state: '',
+      snippet: '',
+      url: '',
+      user: ''
     };
     this.removeJob = this.removeJob.bind(this);
   }
@@ -117,6 +127,120 @@ export default class UserHome extends React.Component {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
   }
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('hi');
+    let geocodeOptions = {
+      method: 'POST'
+    };
+
+    let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
+    var options = {};
+    var city = document.getElementById('city').value;
+    var state = document.getElementById('state').value;
+    var address = document.getElementById('address').value;
+    var longitude = 0;
+    var latitude = 0;
+    var query = address.split(' ').join('+') + ',+' + city.split(' ').join('+') + ',+' + state.split(' ').join('+');
+    console.log('address', query);
+
+    $.ajax({
+      method: 'POST',
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${query}key=${window.geoKey}`,
+      success: function(data) {
+        console.log('google returns: ', data);
+        latitude = data.results[0].geometry.location.lat;
+        longitude = data.results[0].geometry.location.lng;
+
+        $.ajax({
+          method: 'POST',
+          url: '/addUserJob',
+          data: {
+            latitude: data.results[0].geometry.location.lat,
+            longitude: data.results[0].geometry.location.lng,
+            jobTitle: document.getElementById('jobTitle').value,
+            company: document.getElementById('company').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            snippet: document.getElementById('snippet').value,
+            url: document.getElementById('url').value,
+            user: document.getElementById('email'.value)
+          },
+          success: function(data) {
+            var newMarkers = this.props.markers.slice();
+            newMarkers.push({
+              lat: latitude,
+              lng: longitude,
+              company: document.getElementById('company').value,
+              jobtitle: document.getElementById('jobTitle').value,
+              snippet: document.getElementById('snippet').value,
+              url: document.getElementById('url').value,
+              user: document.getElementById('email').value, 
+              jobkey: Math.ceil(Math.random() * 10000),
+              showInfo: false
+            });
+            this.props.setMarkers(newMarkers);
+          }.bind(this)
+        });
+      }.bind(this),
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  }
+  //Fucking promises
+  //   fetch('https://maps.googleapis.com/maps/api/geocode/json?address=944+Market+Street,+San+Francisco,+California&key=AIzaSyA_6OrEY3wG2SikA7W7VyTT6shK9Li3iKY', geocodeOptions)
+  //   .then((response) => {
+  //     console.log('response from google', response);
+  //     return response.json().then((data) => {
+  //       latitude = data.results[0].location.lat;
+  //       longitude = data.results[0].location.lng;
+
+  //       options = {
+  //         method: 'POST',
+  //         headers: myHeaders,
+  //         body: JSON.stringify({
+  //           latitude: data.results[0].location.lat,
+  //           longitude: data.results[0].location.lng,
+  //           jobTitle: document.getElementById('jobTitle').value,
+  //           company: document.getElementById('company').value,
+  //           city: document.getElementById('city').value,
+  //           state: document.getElementById('state').value,
+  //           snippet: document.getElementById('snippet').value,
+  //           url: document.getElementById('url').value,
+  //           user: document.getElementById('email'.value)
+  //         })
+  //       };
+  //     });
+  //   }).then(fetch('/addUserJob', options).then(() => {
+  //     return (() => {
+  //       this.props.setMarkers.push({
+  //         lat: latitude,
+  //         lng: longitude,
+  //         company: document.getElementById('company').value,
+  //         jobtitle: document.getElementById('jobTitle').value,
+  //         snippet: document.getElementById('snippet').value,
+  //         url: document.getElementById('url').value,
+  //         user: document.getElementById('email').value, 
+  //         jobkey: Math.ceil(Math.random() * 10000),
+  //         showInfo: false
+  //       });
+  //     });
+  //   }).then((data) => data).catch((error) => {
+  //     console.log('There has been a problem with your fetch operation: ' + error.message);
+  //   })
+  // );
+  // }
+
+  handleJobSearch(e) {
+    this.setState({currentJob: e.target.value});
+    console.log('jobbing')
+  }
+
+  handleCitySearch(e) {
+    console.log('searching')
+    this.setState({currentCity: e.target.value});
+  }
 
 
   render() {
@@ -147,11 +271,17 @@ export default class UserHome extends React.Component {
           <hr></hr>
           <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
            <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
-            <form>
-              Name:<input type='text'/>
-              Place:<input type='text'/>
-              Thing:<input type='text'/>
-            </form>
+          <form onSubmit={this.handleSubmit.bind(this)}>
+            <input id='jobTitle' type="text" name="job" placeholder='Job Title'/>
+            <input id='company' type="text" name="job" placeholder='Company'/>
+            <input id='address' type="text" name="job" placeholder='Address'/>
+            <input id='city' type="text" name="job" placeholder='City'/>
+            <input id='state' type="text" name="job" placeholder='State'/>
+            <input id='snippet' type="text" name="job" placeholder='Description'/>
+            <input id='url' type="text" name="job" placeholder='Url'/>
+            <input id='email' type="text" name="job" placeholder='Email'/>
+            <button onClick={this.handleSubmit.bind(this)}>Add job posting</button>
+          </form>
            </SkyLight>
         </div>
         <div className='savedjobs'>
@@ -161,4 +291,5 @@ export default class UserHome extends React.Component {
     );
   }
 }
+
 

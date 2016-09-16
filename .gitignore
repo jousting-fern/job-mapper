@@ -1,5 +1,5 @@
 node_modules/
-server/config.js
+client/public/config.js
 npm-debug.log
 client/public/bundle.js
 client/public/bundle.js.map
