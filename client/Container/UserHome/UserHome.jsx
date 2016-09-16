@@ -263,7 +263,7 @@ export default class UserHome extends React.Component {
           <img className="circle profileAvatar valign" src={this.state.avatar} />
           <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
         </div>
-      <LoginButton onClick={Materialize.toast('Logged into JobMapper!', 3000, 'rounded')} onSignIn={this.onSignIn.bind(this)}/>
+      <LoginButton onSignIn={this.onSignIn.bind(this)}/>
         <div className='sidebarheaders'>
             <a onClick={this.addJob.bind(this)} href='#'>Save Selected Job</a>
           <hr></hr>

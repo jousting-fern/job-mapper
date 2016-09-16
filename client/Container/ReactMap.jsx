@@ -37,7 +37,8 @@ export default class ReactMap extends Component {
         {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
         {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
         {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-      ]
+      ],
+      cities: []
     };
 
     this.setMarkers = this.setMarkers.bind(this);
@@ -50,20 +51,19 @@ export default class ReactMap extends Component {
     let options = {
       method: 'GET',
     };
+    let cities = [];
     fetch('/cities', options).then((response) => {
       console.log('RESPONSE HERE IS, response');
       return response.json().then((data) => {
-        var cities = [];
         data.forEach((city) => {
-          console.log('AND HERE IS ANOTHER CITY', city);
           cities.push(city);
         });
-        console.log('CITIES ARRAY IS', cities);
       });
     }).catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
 
+    this.setState({cities: cities});
   }
 
 
@@ -172,13 +172,13 @@ export default class ReactMap extends Component {
   }
 
 
-  render() {
+  render() {  
     return (
       <div>
         <div className='chartDiv'>
           <Chart chartData={this.state.chartData}/>
         </div>
-      <SearchBar setMarkers={this.setMarkers}/>
+      <SearchBar setMarkers={this.setMarkers} cities={this.state.cities}/>
       <div className='overallContainer'>
       <UserHome selected={this.state.selectedPlace} username={this.state.username} LogOutUser={this.LogOutUser} setMarkers={this.setMarkers} markers={this.state.markers}/>
       <GoogleMapLoader

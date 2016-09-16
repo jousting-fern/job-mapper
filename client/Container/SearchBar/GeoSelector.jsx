@@ -1,4 +1,5 @@
 import React from 'react';
+import CityOption from './CityOption.jsx';
 
 class GeoSelector extends React.Component {
   constructor (props) {
@@ -15,17 +16,16 @@ class GeoSelector extends React.Component {
   }
 
   render () {
+    let cities = this.props.cities;
     return (
-      <div> 
-        <select className="GeoSelector" onChange={this.handleSelection.bind(this)} value={this.state.value}>
-         {/* {this.props.cities.map(function(city)){
-            return (
-              <CityOption city={city}/>
-            )
-          }}*/}
-          }
-          
-        </select>
+      <div className="GeoSelectContainer"> 
+        <form>
+          <select>
+            {cities.map((city)=>
+               <CityOption city={city} />
+            )}
+          </select>
+        </form>
       </div>
     );
   }
