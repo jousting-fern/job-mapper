@@ -24,6 +24,7 @@ class GeoSelector extends React.Component {
             )
           }}*/}
           }
+          
         </select>
       </div>
     );
