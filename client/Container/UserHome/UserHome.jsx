@@ -129,57 +129,110 @@ export default class UserHome extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
+    console.log('hi');
     let geocodeOptions = {
-      method: 'POST',
-      headers: myHeaders
+      method: 'POST'
     };
+
     let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
     var options = {};
+    var city = document.getElementById('city').value;
+    var state = document.getElementById('state').value;
+    var address = document.getElementById('address').value;
     var longitude = 0;
     var latitude = 0;
-
+    var query = address.split(' ').join('+') + ',+' + city.split(' ').join('+') + ',+' + state.split(' ').join('+');
+    console.log('address', query);
     //'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE';
 
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE', geocodeOptions)
-    .then((response) => {
-      return response.json().then((data) => {
-        latitude = data.results[0].location.lat;
-        longitude = data.results[0].location.lng;
 
-        options = {
+    $.ajax({
+      method: 'POST',
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${query}key=AIzaSyA_6OrEY3wG2SikA7W7VyTT6shK9Li3iKY`,
+      success: function(data) {
+        console.log('google returns: ', data);
+        latitude = data.results[0].geometry.location.lat;
+        longitude = data.results[0].geometry.location.lng;
+
+        $.ajax({
           method: 'POST',
-          headers: myHeaders,
-          body: JSON.stringify({
-            latitude: data.results[0].location.lat,
-            longitude: data.results[0].location.lng,
-            jobTitle: document.getElementById('jobTitle'),
-            company: document.getElementById('company'),
-            city: document.getElementById('city'),
-            state: document.getElementById('state'),
-            snippet: document.getElementById('snippet'),
-            url: document.getElementById('url'),
-            user: document.getElementById('email')
-          })
-        };
-      });
-    }).then(fetch('/addUserJob', options).then(() => {
-      return (() => {
-        this.props.setMarkers.push({
-          lat: latitude,
-          lng: longitude,
-          company: document.getElementById('company'),
-          jobtitle: document.getElementById('jobTitle'),
-          snippet: document.getElementById('snippet'),
-          url: document.getElementById('url'),
-          jobkey: Math.ceil(Math.random() * 10000),
-          showInfo: false
+          url: '/addUserJob',
+          data: {
+            latitude: data.results[0].geometry.location.lat,
+            longitude: data.results[0].geometry.location.lng,
+            jobTitle: document.getElementById('jobTitle').value,
+            company: document.getElementById('company').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            snippet: document.getElementById('snippet').value,
+            url: document.getElementById('url').value,
+            user: document.getElementById('email'.value)
+          },
+          success: function(data) {
+            var newMarkers = this.props.markers.slice();
+            newMarkers.push({
+              lat: latitude,
+              lng: longitude,
+              company: document.getElementById('company').value,
+              jobtitle: document.getElementById('jobTitle').value,
+              snippet: document.getElementById('snippet').value,
+              url: document.getElementById('url').value,
+              user: document.getElementById('email').value, 
+              jobkey: Math.ceil(Math.random() * 10000),
+              showInfo: false
+            });
+            this.props.setMarkers(newMarkers);
+          }.bind(this)
         });
-      });
-    }).catch((error) => {
-      console.log('There has been a problem with your fetch operation: ' + error.message);
-    })
-  );
+      }.bind(this),
+      error: function(error) {
+        console.log(error);
+      }
+    });
   }
+  //Fucking promises
+  //   fetch('https://maps.googleapis.com/maps/api/geocode/json?address=944+Market+Street,+San+Francisco,+California&key=AIzaSyA_6OrEY3wG2SikA7W7VyTT6shK9Li3iKY', geocodeOptions)
+  //   .then((response) => {
+  //     console.log('response from google', response);
+  //     return response.json().then((data) => {
+  //       latitude = data.results[0].location.lat;
+  //       longitude = data.results[0].location.lng;
+
+  //       options = {
+  //         method: 'POST',
+  //         headers: myHeaders,
+  //         body: JSON.stringify({
+  //           latitude: data.results[0].location.lat,
+  //           longitude: data.results[0].location.lng,
+  //           jobTitle: document.getElementById('jobTitle').value,
+  //           company: document.getElementById('company').value,
+  //           city: document.getElementById('city').value,
+  //           state: document.getElementById('state').value,
+  //           snippet: document.getElementById('snippet').value,
+  //           url: document.getElementById('url').value,
+  //           user: document.getElementById('email'.value)
+  //         })
+  //       };
+  //     });
+  //   }).then(fetch('/addUserJob', options).then(() => {
+  //     return (() => {
+  //       this.props.setMarkers.push({
+  //         lat: latitude,
+  //         lng: longitude,
+  //         company: document.getElementById('company').value,
+  //         jobtitle: document.getElementById('jobTitle').value,
+  //         snippet: document.getElementById('snippet').value,
+  //         url: document.getElementById('url').value,
+  //         user: document.getElementById('email').value, 
+  //         jobkey: Math.ceil(Math.random() * 10000),
+  //         showInfo: false
+  //       });
+  //     });
+  //   }).then((data) => data).catch((error) => {
+  //     console.log('There has been a problem with your fetch operation: ' + error.message);
+  //   })
+  // );
+  // }
 
   handleJobSearch(e) {
     this.setState({currentJob: e.target.value});
@@ -229,6 +282,7 @@ export default class UserHome extends React.Component {
             <input id='snippet' type="text" name="job" placeholder='Description'/>
             <input id='url' type="text" name="job" placeholder='Url'/>
             <input id='email' type="text" name="job" placeholder='Email'/>
+            <button onClick={this.handleSubmit.bind(this)}>Add job posting</button>
           </form>
            </SkyLight>
         </div>
