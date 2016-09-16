@@ -8,7 +8,9 @@ export default class UserHome extends React.Component {
     super(props);
     this.state = { 
       jobs: [],
-      username: ''
+      username: '',
+      avatar: '',
+      firstname: ''
     };
     this.removeJob = this.removeJob.bind(this);
   }
@@ -21,9 +23,11 @@ export default class UserHome extends React.Component {
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail());
     this.setState({
-      username: profile.getEmail()
-    })
-    console.log(this.state.username)
+      username: profile.getEmail(),
+      avatar: profile.getImageUrl(),
+      firstname: profile.getName().split(' ').slice(0, -1).join(' ')
+    });    
+    console.log(this.state.username);
   }
   
   // displays saved jobs on login
@@ -131,6 +135,10 @@ export default class UserHome extends React.Component {
         ));
     return (
       <div className='sidebar'>
+        <div className='profileHead valign-wrapper'>
+          <img className="circle profileAvatar valign" src={this.state.avatar} />
+          <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
+        </div>
       <LoginButton onSignIn={this.onSignIn.bind(this)}/>
         <div className='sidebarheaders'>
             <a onClick={this.addJob.bind(this)} href='#'>Save Selected Job</a>
