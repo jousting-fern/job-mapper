@@ -3,6 +3,9 @@ import SavedJob from './SavedJob.jsx';
 import LoginButton from './Login.jsx';
 import SkyLight from 'react-skylight';
 
+
+
+
 export default class UserHome extends React.Component {
   constructor(props) {
     super(props);
@@ -10,11 +13,14 @@ export default class UserHome extends React.Component {
       jobs: [],
       username: '',
       avatar: '',
-      firstname: ''
-      city:'',
-      job: 'javascript',
-      currentJob:'a',
-      currentCity:''
+      firstname: '',
+      jobTitle: '',
+      company: '',
+      city: '',
+      state: '',
+      snippet: '',
+      url: '',
+      user: ''
     };
     this.removeJob = this.removeJob.bind(this);
   }
@@ -121,16 +127,26 @@ export default class UserHome extends React.Component {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
   }
-
   handleSubmit(e) {
     e.preventDefault();
     let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
+
+    //'http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=APIKEYHERE';
     let options = {
       method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify({job: this.state.currentJob, city: this.state.currentCity})
+      body: JSON.stringify({
+        jobTitle: document.getElementById('jobTitle'),
+        company: document.getElementById('company'),
+        address: document.getElementById('address'),
+        city: document.getElementById('city'),
+        state: document.getElementById('state'),
+        snippet: document.getElementById('snippet'),
+        url: document.getElementById('url'),
+        user: document.getElementById('email')
+      })
     };
-    fetch('/indeed', options).then((response) => {
+    fetch('/addUserJob', options).then((response) => {
       return response.json().then((data) => {
         var markers = [];
         data.forEach((job) => {
@@ -194,8 +210,14 @@ export default class UserHome extends React.Component {
           <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
            <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
           <form onSubmit={this.handleSubmit.bind(this)}>
-            <input className='search-box' type="text" name="job" value={this.state.currentJob} placeholder='Search Job
-            ' onChange={this.handleJobSearch}/>
+            <input id='jobTitle' type="text" name="job" placeholder='Job Title'/>
+            <input id='company' type="text" name="job" placeholder='Company'/>
+            <input id='address' type="text" name="job" placeholder='Address'/>
+            <input id='city' type="text" name="job" placeholder='City'/>
+            <input id='state' type="text" name="job" placeholder='State'/>
+            <input id='snippet' type="text" name="job" placeholder='Description'/>
+            <input id='url' type="text" name="job" placeholder='Url'/>
+            <input id='email' type="text" name="job" placeholder='Email'/>
           </form>
            </SkyLight>
         </div>
@@ -206,4 +228,5 @@ export default class UserHome extends React.Component {
     );
   }
 }
+
 

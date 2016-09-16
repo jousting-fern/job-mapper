@@ -25,7 +25,9 @@ module.exports = (app, express) => {
     userdbController.getJobs(req, res);
   });
   
-  app.post('/addUserJob', dbController.userCreate)
+  app.post('/addUserJob', (req, res) => {
+    dbController.userCreate(req, res);
+  });
 
   // Add one job to the user's list of saved jobs
   app.post('/addJob', function(req, res) {

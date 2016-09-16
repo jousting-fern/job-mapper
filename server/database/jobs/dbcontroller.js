@@ -34,8 +34,9 @@ module.exports = {
       jobkey: salt(20),
       user: req.body.email
     })
-    .then(function () {
-      res.sendStatus(201);
+    .find()
+    .then((results) => { 
+      res.status(200).send(JSON.stringify(results));
     })
     .catch(function (err) {
       console.log(err);

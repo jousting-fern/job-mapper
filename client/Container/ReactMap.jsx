@@ -54,6 +54,7 @@ export default class ReactMap extends Component {
     }).catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
+
   }
 
 
