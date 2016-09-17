@@ -630,4 +630,13 @@ h2 {
     font-weight: 900;
     font-size: 20px;
 }
+
+span#chartTitle {
+    color: #36404e !important;
+}
+
+.graphHead {
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
  
