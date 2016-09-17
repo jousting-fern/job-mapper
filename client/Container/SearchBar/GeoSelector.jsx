@@ -12,17 +12,17 @@ class GeoSelector extends React.Component {
 
   handleSelection (event) {
     this.setState({value: event.target.value});
+    this.props.handleCitySearch(event);
     console.log('selection changed!... and is now', this.state.value);
   }
 
   render () {
     let cities = this.props.cities;
-    console.log(cities, '<<CITIES ARE');
     return (
       <div className="GeoSelectContainer"> 
-          <select>
+          <select value={this.state.value} onChange={this.handleSelection.bind(this)}>
             {cities.map((city) => 
-               <option value={city}> {city}</option>               
+               <option id={city} value={city}>{city}</option>               
             )}
           </select>
       </div>

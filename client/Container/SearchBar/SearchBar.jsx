@@ -18,6 +18,7 @@ export default class SearchBar extends Component {
   // takes text from search bar and queries database for matching results
   // makes an array of markers that are to be passed to setMarkers
   handleSubmit(e) {
+    console.log('RLLY SEARCHING FOR THIS VALUE RN', this.state.currentCity)
     e.preventDefault();
     let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
     let options = {
@@ -63,7 +64,13 @@ export default class SearchBar extends Component {
   handleCitySearch(e) {
     console.log('searching');
     this.setState({currentCity: e.target.value});
+    console.log('CURRENT CITY NOW SEARCHING FOR IS ', this.state.currentCity);
   }
+
+  // handleSelectChange(event) {
+  //   console.log(event.target.value);
+  //   this.setState({currentCity: event.target.value});
+  // }
 
   render() {
     return (
@@ -76,7 +83,7 @@ export default class SearchBar extends Component {
           </form>
         </div>
         <div className='geoSelector'>
-          <GeoSelector cities={this.props.cities}/>
+          <GeoSelector cities={this.props.cities} handleCitySearch={this.handleCitySearch.bind(this)} />
         </div>
         {/* <div className='searchLabel'>
         City:<input type="text" name="city" value={this.state.currentCity} onChange={this.handleCitySearch} />
