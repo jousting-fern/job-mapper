@@ -60,7 +60,7 @@ export default class UserSideBar extends React.Component {
     }*/}
 
     return (
-      <div className='sidebar'>
+      <div className='sidebar z-depth-2'>
       </div>
     );
   }

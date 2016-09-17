@@ -4,7 +4,6 @@ html, body, #app, .application, .overallContainer, #app>div {
 
 body {
   margin: 0px;
-  font-family: 'Open Sans', sans-serif;
 }
 
 input {
@@ -186,6 +185,7 @@ input.search-box {
 
 .sidebar {
     background: #8090A7;
+
 }
 
 img.circle.profileAvatar.valign {
@@ -216,10 +216,10 @@ img.circle.profileAvatar.valign {
     right: 0px;
     color: white !important;
     z-index: 300;
-    background: #d8d8d8;
+    background: #ffffff;
     padding: 10px;
-    border-top: solid 4px #36404e;
-    border-left: solid 4px #36404e;
+    border-top: solid 2px #d0d0d0;
+    border-left: solid 2px #d0d0d0;
     border-top-left-radius: 15px;
 }
 
@@ -240,3 +240,16 @@ html, body, #app, .application, .overallContainer, #app>div {
     overflow: hidden;
 }
 
+img.save {
+    width: 20px;
+    margin-top: 3px;
+    position: absolute;
+}
+
+h2.savedJobs {
+    display: inline;
+    color: #fff;
+    font-size: 18px;
+    margin-left: 30px;
+    clear: right !Important;
+}
