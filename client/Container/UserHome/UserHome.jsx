@@ -155,6 +155,7 @@ export default class UserHome extends React.Component {
         $.ajax({
           method: 'POST',
           url: '/addUserJob',
+          datatype: 'json',
           data: {
             latitude: data.results[0].geometry.location.lat,
             longitude: data.results[0].geometry.location.lng,
@@ -275,7 +276,7 @@ export default class UserHome extends React.Component {
             <i class="material-icons">lock_outline</i> <h2 className="savedJobs">Saved Jobs</h2>
           </div>
            <button className="waves-effect waves-light btn" onClick={() => this.refs.simpleDialog.show()}>Add Job</button>
-           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
+           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Job Listing Form">
           <form onSubmit={this.handleSubmit.bind(this)}>
             <input className='validate' id='jobTitle' type="text" name="job" placeholder='Job Title'/>
             <input id='company' type="text" name="job" placeholder='Company'/>
