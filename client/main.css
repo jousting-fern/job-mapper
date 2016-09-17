@@ -381,3 +381,8 @@ button.waves-effect.waves-light.btn.postJob:hover {
 img.log {
     margin-top: 20px;
 }
+
+input.search-box:focus {
+    background: #8090a7;
+}
+

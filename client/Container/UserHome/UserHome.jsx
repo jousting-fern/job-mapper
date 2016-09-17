@@ -156,6 +156,7 @@ export default class UserHome extends React.Component {
         $.ajax({
           method: 'POST',
           url: '/addUserJob',
+          datatype: 'json',
           data: {
             latitude: data.results[0].geometry.location.lat,
             longitude: data.results[0].geometry.location.lng,
@@ -262,8 +263,12 @@ export default class UserHome extends React.Component {
       <div className='sidebar z-depth-2'>
         <button className="seeWhole" onClick={this.props.wholeView}>See whole map</button>
         <div className='profileHead valign-wrapper'>
-          <img className="circle profileAvatar valign" src={this.state.avatar} />
-          <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
+          {this.state.username === '' ? null : 
+          <div>
+            <img className="circle profileAvatar valign" src={this.state.avatar} />
+            <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
+          </div>
+          } 
         </div>
       <LoginButton onSignIn={this.onSignIn.bind(this)}/>
            <button className="waves-effect waves-light btn postJob" onClick={() => this.refs.simpleDialog.show()}>Post a Job</button>
@@ -272,7 +277,7 @@ export default class UserHome extends React.Component {
           <div className="savedJobs head">
             <i className="material-icons">system_update_alt</i> <h2 className="savedJobs">Saved Jobs</h2>
           </div>
-           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
+           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Job Listing Form">
           <form onSubmit={this.handleSubmit.bind(this)}>
             <input className='validate' id='jobTitle' type="text" name="job" placeholder='Job Title'/>
             <input id='company' type="text" name="job" placeholder='Company'/>

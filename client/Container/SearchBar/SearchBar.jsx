@@ -17,14 +17,17 @@ export default class SearchBar extends Component {
 
   // takes text from search bar and queries database for matching results
   // makes an array of markers that are to be passed to setMarkers
-  handleSubmit(e) {
+  handleSubmit(e, cityQuery) {
     console.log('RLLY SEARCHING FOR THIS VALUE RN', this.state.currentCity)
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();  
+    }
+    let city = cityQuery || this.state.currentCity;
     let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
     let options = {
       method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify({job: this.state.currentJob, city: this.state.currentCity})
+      body: JSON.stringify({job: this.state.currentJob, city: city})
     };
     fetch('/indeed', options).then((response) => {
       return response.json().then((data) => {
@@ -57,10 +60,10 @@ export default class SearchBar extends Component {
     console.log('jobbing');
   }
 
-  handleCitySearch(e) {
+  handleCitySearch(city) {
     console.log('searching');
-    this.setState({currentCity: e.target.value});
-    console.log('CURRENT CITY NOW SEARCHING FOR IS ', this.state.currentCity);
+    this.setState({currentCity: city});
+    this.handleSubmit(null, city);
   }
 
   // handleSelectChange(event) {
@@ -80,7 +83,7 @@ export default class SearchBar extends Component {
           </form>
         </div>
         <div className='geoSelector'>
-          <GeoSelector cities={this.props.cities} handleCitySearch={this.handleCitySearch.bind(this)} city={this.handleCitySearch}/>
+          <GeoSelector cities={this.props.cities} change={this.props.change.bind(this)} city={this.handleCitySearch.bind(this)}/>
         </div>
         {/* <div className='searchLabel'>
         City:<input type="text" name="city" value={this.state.currentCity} onChange={this.handleCitySearch} />

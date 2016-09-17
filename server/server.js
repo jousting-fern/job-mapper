@@ -20,6 +20,7 @@ app.use(session({
 }));
 
 app.use(parser.json());
+app.use(parser.urlencoded());
 app.use(express.static(path.join(__dirname + '/../client/public')));
 app.use(favicon(__dirname + '/../client/public/favicon.ico'));
 

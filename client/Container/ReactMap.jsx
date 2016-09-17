@@ -29,16 +29,8 @@ export default class ReactMap extends Component {
       register: false,
       loggedIn: false,
       username: '',
-      cities: [],
-      chartData: [
-        {name: 'Page A', uv: 4000, pv: 1398, amt: 2400},
-        {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-        {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-        {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-        {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-        {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-        {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-      ],
+      cities: ['Select a city'],
+      chartData: null,
       cities: [],
       center: { lat:  39.5, lng: -98.35 },
       zoom: 4,
@@ -69,18 +61,17 @@ export default class ReactMap extends Component {
     let options = {
       method: 'GET',
     };
+    var cities = ['Select a city'];
 
-    var cities = ['Select a City'];
-    
     $.ajax({
       method: 'GET',
       url: '/cities',
       success: function (data) {
-        let parsed = JSON.parse(data);
-        console.log(parsed, 'PARSED IS');
-        for ( var i = 0; i < parsed.length; i++ ) {
-          cities.push(parsed[i]);
-        }
+        console.log(data);
+        JSON.parse(data).forEach(function(city){
+          cities.push(city);
+          console.log(city);
+        });
         this.setState({cities: cities});
       }.bind(this)
     });
@@ -130,37 +121,57 @@ export default class ReactMap extends Component {
   }
 
   setMarkers(markerArray) {
-    this.setState({
-      markers: markerArray,
-    });
+    // set map markers
+    // this.setState({
+    //   markers: markerArray,
+    // });
     
+
+    // create chart information
+
     // create dateObj to increment counters by day
     var dateObj = {};
     
-    // loop through each job and set counters and first and last
+    // loop through each job and set counters
     markerArray.forEach(function(job) {
+      //create js date obj out of each timestamp
       job.date = new Date(job.date);
-      var jobString = job.date.toDateString();
+      
+      // create shortened string date rep to act as key
+      job.string = job.date.toLocaleDateString();
+      
       // create counters for each day a job was created
-      dateObj[jobString] = dateObj[jobString] + 1 || 1;  
-      // console.log('day: ', jobString, " ", dateObj[jobString]);
+      if ( dateObj[job.string] ) {
+        dateObj[job.string].jobs++;
+      } else {
+        dateObj[job.string] = {
+          date: job.date,
+          jobs: 0
+        }; 
+      }
     });
     
     // loop through dateObj to create chartData
       var newChartData = [];
-      for (var jobDate in dateObj) {
+      for (var key in dateObj) {
           newChartData.push({
-            name: jobDate, 
-            uv: dateObj[jobDate], 
-            pv: dateObj[jobDate], 
-            amt: dateObj[jobDate]
+            name: key, 
+            uv: dateObj[key].jobs, 
+            pv: dateObj[key].jobs, 
+            amt: dateObj[key].jobs,
+            date: dateObj[key].date
           });
       }
-          console.log('newChartData: ', newChartData);
+      
+      // sort array by day ascending
+      newChartData.sort(function(a, b){
+        return a.date.getTime() - b.date.getTime();
+      });
       
     // add chartData to SetState
       this.setState({
-        chartData: newChartData,
+        markers: markerArray,
+        chartData: newChartData
       });
   }
 
@@ -201,7 +212,7 @@ export default class ReactMap extends Component {
     var cities = this.state.coords;
     this.setState({
       center: cities[city],
-      zoom: 10
+      zoom: 12
     })
   }
 
@@ -210,16 +221,17 @@ export default class ReactMap extends Component {
       center: { lat:  39.5, lng: -98.35 },
       zoom: 4
     });
-    console.log('zooming back', this.state.zoom);
   }
  
 
   render() {
     return (
-      <div>
+      <div> 
+      {this.state.chartData ?
         <div className='chartDiv chartDiv z-depth-3'>
           <Chart chartData={this.state.chartData}/>
-        </div>
+        </div> : null
+      }
       <SearchBar setMarkers={this.setMarkers} cities={this.state.cities} change={this.change.bind(this)}/>
       <div className='overallContainer'>
       <UserHome selected={this.state.selectedPlace} 
