@@ -3,9 +3,6 @@ import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, ReferenceLine,
   ReferenceDot, Tooltip, CartesianGrid, Legend, Brush } from 'recharts';
 
 
-
-
-
 export default class Chart extends Component {
 
   constructor(props, context) {
