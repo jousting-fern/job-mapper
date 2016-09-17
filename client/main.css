@@ -209,7 +209,7 @@ img.circle.profileAvatar.valign {
 }
 
 #toast-container {
-    bottom: 130px !important;
+    bottom: 160px !important;
     right: 5px !important;
     max-width: 86%;
     top: inherit !important;
@@ -614,4 +614,20 @@ div#my-signin2 {
     background-color: rgb(255, 255, 255);
 }
 
+blue-text.text-darken-2 {
+    color: #36404e !important;
+}
+
+.graphHead i {
+    background: #26a69a !important;
+}
+
+.graphHead {
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-weight: 900;
+    font-size: 20px;
+}
  

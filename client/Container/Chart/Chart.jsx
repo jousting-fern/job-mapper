@@ -12,7 +12,7 @@ export default class Chart extends Component {
 
   render () {
     return (
-      <LineChart width={600} height={100} data={this.props.chartData} margin={{ top: 5, right: 35, left: 15, bottom: 5 }}>
+      <LineChart width={600} height={100} data={this.props.chartData} margin={{ top: 5, right: 35, left: 0, bottom: 5 }}>
         <XAxis dataKey="name" />
         <YAxis />
         <CartesianGrid strokeDasharray="3 3" />
