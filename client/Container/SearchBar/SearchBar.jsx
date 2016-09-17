@@ -73,7 +73,7 @@ export default class SearchBar extends Component {
 
   render() {
     return (
-      <div id='search-bar'>
+      <div id='search-bar' className="valign-wrapper">
         <img className='log' src='./jobsIcon.png'/>
         <h1>JobMapper</h1>
         <div className='search-div'>
@@ -82,7 +82,7 @@ export default class SearchBar extends Component {
             ' onChange={this.handleJobSearch} />
           </form>
         </div>
-        <div className='geoSelector'>
+        <div className='geoSelector valign'>
           <GeoSelector cities={this.props.cities} change={this.props.change.bind(this)} city={this.handleCitySearch.bind(this)}/>
         </div>
         {/* <div className='searchLabel'>

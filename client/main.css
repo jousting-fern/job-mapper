@@ -386,3 +386,7 @@ input.search-box:focus {
     background: #8090a7;
 }
 
+.valign-wrapper .valign {
+    display: inline;
+}
+
