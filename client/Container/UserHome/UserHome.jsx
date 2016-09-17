@@ -219,9 +219,9 @@ export default class UserHome extends React.Component {
     return (
       <div className='sidebar z-depth-2'>
         <button className="seeWhole" onClick={this.props.wholeView}>See whole map</button>
-        <div className='profileHead valign-wrapper'>
+        <div className='profileHead'>
           {this.state.username === '' ? null : 
-          <div>
+          <div className="valign-wrapper">
             <img className="circle profileAvatar valign" src={this.state.avatar} />
             <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
           </div>

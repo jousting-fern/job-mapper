@@ -231,7 +231,7 @@ img.circle.profileAvatar.valign {
     right: 5px;
 }
 
-h3.welcomeTxt.valign {
+h3.welcomeTxt {
     color: white;
     font-size: 13px;
     margin-left: 12px;
@@ -580,4 +580,15 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 input.search-box:focus {
     font-size: 25px;
     font-weight: 900;
+}
+
+
+.profileHead {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+div#my-signin2 {
+    margin: 0 auto;
 }
