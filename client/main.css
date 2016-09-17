@@ -379,7 +379,7 @@ button.waves-effect.waves-light.btn.postJob:hover {
 }
 
 img.log {
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 input.search-box:focus {
@@ -388,5 +388,9 @@ input.search-box:focus {
 
 .valign-wrapper .valign {
     display: inline;
+}
+
+.savedjobs {
+    border-bottom: 9px solid #36404e;
 }
 
