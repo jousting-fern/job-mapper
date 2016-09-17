@@ -17,7 +17,7 @@ class GeoSelector extends React.Component {
   render () {
     let cities = this.props.cities;
     return (
-      <div className="GeoSelectContainer"> 
+      <div className="GeoSelectContainer input-field"> 
           <select id='selectBox' onChange={this.change.bind(this)}>
             {cities.map((city) => 
                <CityOption city={city} />
@@ -29,3 +29,5 @@ class GeoSelector extends React.Component {
 }
 
 export default GeoSelector;
+
+

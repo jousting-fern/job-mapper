@@ -190,50 +190,7 @@ export default class UserHome extends React.Component {
       }
     });
   }
-  //Fucking promises
-  //   fetch('https://maps.googleapis.com/maps/api/geocode/json?address=944+Market+Street,+San+Francisco,+California&key=AIzaSyA_6OrEY3wG2SikA7W7VyTT6shK9Li3iKY', geocodeOptions)
-  //   .then((response) => {
-  //     console.log('response from google', response);
-  //     return response.json().then((data) => {
-  //       latitude = data.results[0].location.lat;
-  //       longitude = data.results[0].location.lng;
-
-  //       options = {
-  //         method: 'POST',
-  //         headers: myHeaders,
-  //         body: JSON.stringify({
-  //           latitude: data.results[0].location.lat,
-  //           longitude: data.results[0].location.lng,
-  //           jobTitle: document.getElementById('jobTitle').value,
-  //           company: document.getElementById('company').value,
-  //           city: document.getElementById('city').value,
-  //           state: document.getElementById('state').value,
-  //           snippet: document.getElementById('snippet').value,
-  //           url: document.getElementById('url').value,
-  //           user: document.getElementById('email'.value)
-  //         })
-  //       };
-  //     });
-  //   }).then(fetch('/addUserJob', options).then(() => {
-  //     return (() => {
-  //       this.props.setMarkers.push({
-  //         lat: latitude,
-  //         lng: longitude,
-  //         company: document.getElementById('company').value,
-  //         jobtitle: document.getElementById('jobTitle').value,
-  //         snippet: document.getElementById('snippet').value,
-  //         url: document.getElementById('url').value,
-  //         user: document.getElementById('email').value, 
-  //         jobkey: Math.ceil(Math.random() * 10000),
-  //         showInfo: false
-  //       });
-  //     });
-  //   }).then((data) => data).catch((error) => {
-  //     console.log('There has been a problem with your fetch operation: ' + error.message);
-  //   })
-  // );
-  // }
-
+ 
   handleJobSearch(e) {
     this.setState({currentJob: e.target.value});
     console.log('jobbing')
