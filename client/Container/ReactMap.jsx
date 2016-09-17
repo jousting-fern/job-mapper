@@ -108,41 +108,57 @@ export default class ReactMap extends Component {
   }
 
   setMarkers(markerArray) {
-    this.setState({
-      markers: markerArray,
-    });
+    // set map markers
+    // this.setState({
+    //   markers: markerArray,
+    // });
     
+
+    // create chart information
+
     // create dateObj to increment counters by day
     var dateObj = {};
     
-    // loop through each job and set counters and first and last
+    // loop through each job and set counters
     markerArray.forEach(function(job) {
+      //create js date obj out of each timestamp
       job.date = new Date(job.date);
-      var jobString = job.date.toDateString();
+      
+      // create shortened string date rep to act as key
+      job.string = job.date.toLocaleDateString();
+      
       // create counters for each day a job was created
-      dateObj[jobString] = dateObj[jobString] + 1 || 1;  
-      // console.log('day: ', jobString, " ", dateObj[jobString]);
+      if ( dateObj[job.string] ) {
+        dateObj[job.string].jobs++;
+      } else {
+        dateObj[job.string] = {
+          date: job.date,
+          jobs: 0
+        }; 
+      }
     });
     
     // loop through dateObj to create chartData
       var newChartData = [];
-      for (var jobDate in dateObj) {
+      for (var key in dateObj) {
           newChartData.push({
-            name: jobDate, 
-            uv: dateObj[jobDate], 
-            pv: dateObj[jobDate], 
-            amt: dateObj[jobDate]
+            name: key, 
+            uv: dateObj[key].jobs, 
+            pv: dateObj[key].jobs, 
+            amt: dateObj[key].jobs,
+            date: dateObj[key].date
           });
       }
-
-      console.log('newChartData: ', newChartData);
-      console.log( 'sorted: ', newChartData.sortBy(newChartData, function(a, b){
-        return a.date - b.date;
-      }) );
+      
+      // sort array by day ascending
+      newChartData.sort(function(a, b){
+        return a.date.getTime() - b.date.getTime();
+      });
       
     // add chartData to SetState
       this.setState({
-        chartData: newChartData,
+        markers: markerArray,
+        chartData: newChartData
       });
   }
 
