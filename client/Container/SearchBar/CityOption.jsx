@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const CityOption = (props) => (
-  <option className="cityOpt" value={this.props.city}>{this.props.city}</option>
+  <option className="cityOpt" value={props.city}>{props.city}</option>
 );
 
 

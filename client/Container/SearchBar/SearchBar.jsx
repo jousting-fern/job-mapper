@@ -7,7 +7,7 @@ export default class SearchBar extends Component {
     super(props);
     this.state = {
       currentJob: '',
-      currentCity: ''
+      currentCity: 'San Francisco'
     };
 
     this.handleJobSearch = this.handleJobSearch.bind(this);
@@ -57,16 +57,10 @@ export default class SearchBar extends Component {
     console.log('jobbing');
   }
 
-  handleCitySearch(e) {
+  handleCitySearch(city) {
     console.log('searching');
-    this.setState({currentCity: e.target.value});
-    console.log('CURRENT CITY NOW SEARCHING FOR IS ', this.state.currentCity);
+    this.setState({currentCity: city});
   }
-
-  // handleSelectChange(event) {
-  //   console.log(event.target.value);
-  //   this.setState({currentCity: event.target.value});
-  // }
 
   render() {
     return (
@@ -79,11 +73,8 @@ export default class SearchBar extends Component {
           </form>
         </div>
         <div className='geoSelector'>
-          <GeoSelector cities={this.props.cities} handleCitySearch={this.handleCitySearch.bind(this)} />
+          <GeoSelector cities={this.props.cities} change={this.props.change.bind(this)} city={this.handleCitySearch} />
         </div>
-        {/* <div className='searchLabel'>
-        City:<input type="text" name="city" value={this.state.currentCity} onChange={this.handleCitySearch} />
-      </div> */}
       </div>
     );
   }

@@ -40,7 +40,24 @@ export default class ReactMap extends Component {
         {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
       ],
       cities: [],
+      center: { lat:  39.5, lng: -98.35 },
+      zoom: 4,
+      coords: {
+        'San Francisco': { lat: 37.77493, lng: -122.419416},
+        'New York': {lat: 40.712784, lng: -74.005941},
+        'Boston': {lat: 42.360083, lng: -71.05888},
+        'Austin': {lat: 30.267153, lng: -97.743061},
+        'Los Angeles': {lat: 34.052234, lng: -118.243685},
+        'San Jose': {lat: 37.338208, lng: -121.886329},
+        'Seattle': {lat: 47.60621, lng: -122.332071},
+        'Denver': {lat: 39.739236, lng: -104.990251},
+        'Chicago': {lat: 41.878114, lng: -87.629798},
+        'San Diego': {lat: 32.715738, lng: -117.161084},
+      }
     };
+
+
+
 
     this.setMarkers = this.setMarkers.bind(this);
     this.LogInUser = this.LogInUser.bind(this);
@@ -174,7 +191,23 @@ export default class ReactMap extends Component {
       );
   }
 
+  change(city) {
+    console.log(city, 'passed up complete')
+    var cities = this.state.coords;
+    this.setState({
+      center: cities[city],
+      zoom: 10
+    })
+  }
 
+  wholeView() {
+    this.setState({
+      center: { lat:  39.5, lng: -98.35 },
+      zoom: 4
+    });
+    console.log('zooming back', this.state.zoom);
+  }
+ 
 
   render() {
     return (
@@ -182,9 +215,15 @@ export default class ReactMap extends Component {
         <div className='chartDiv'>
           <Chart chartData={this.state.chartData}/>
         </div>
-      <SearchBar setMarkers={this.setMarkers} cities={this.state.cities}/>
+      <SearchBar setMarkers={this.setMarkers} cities={this.state.cities} change={this.change.bind(this)}/>
       <div className='overallContainer'>
-      <UserHome selected={this.state.selectedPlace} username={this.state.username} LogOutUser={this.LogOutUser} setMarkers={this.setMarkers} markers={this.state.markers}/>
+      <UserHome selected={this.state.selectedPlace} 
+      username={this.state.username} 
+      LogOutUser={this.LogOutUser} 
+      setMarkers={this.setMarkers} 
+      markers={this.state.markers}
+      wholeView={this.wholeView.bind(this)}
+      />
       <GoogleMapLoader
         query={{ libraries: "geometry,drawing,places,visualization" }}
         containerElement={
@@ -205,6 +244,8 @@ export default class ReactMap extends Component {
               styles: [{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#7f2200"},{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#87ae79"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#495421"}]},{"featureType":"administrative","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"},{"visibility":"on"},{"weight":4.1}]},{"featureType":"administrative.neighborhood","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#abce83"}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"lightness":"25"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#97b771"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#7B8758"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"color":"#EBF4A4"}]},{"featureType":"poi.attraction","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#8dab68"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#5B5B3F"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ABCE83"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#EBF4A4"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#9BBF72"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#A4C67D"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#aee2e0"}]}],
               mapTypeId: 'terrain'
             }}
+            zoom={this.state.zoom}
+            center={this.state.center}
           >
             {this.state.markers.map((marker, index) => {
               const ref = `marker_${index}`;
