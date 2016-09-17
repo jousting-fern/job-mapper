@@ -11,13 +11,25 @@ module.exports = {
   retrieveAll: (req, res) => {
     let searchString = req.body.job;
     var job = new RegExp(searchString, 'i');
-    Job.find()
-      .or([{ 'jobtitle': { $regex: job } }, { 'snippet': { $regex: job } }])
-      .and([{'city': req.body.city}]) 
-      .then((results) => {
-        res.status(200)
-          .send(JSON.stringify(results));
-      });
+//if statement would be used if we want to find all jobs
+//    if (req.body.city) {
+      Job.find()
+        .or([{ 'jobtitle': { $regex: job } }, { 'snippet': { $regex: job } }])
+        .and([{'city': req.body.city}]) 
+        .then((results) => {
+          res.status(200)
+            .send(JSON.stringify(results));
+        });
+      
+    // } else {
+    //   Job.find()
+    //   .or([{ 'jobtitle': { $regex: job } }, { 'snippet': { $regex: job } }])
+    //   .then((results) => {
+    //     res.status(200)
+    //       .send(JSON.stringify(results));
+    //   });
+    // }
+
   },
   
   userCreate: (req, res) => {

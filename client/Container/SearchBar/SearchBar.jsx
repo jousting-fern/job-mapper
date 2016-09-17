@@ -17,14 +17,17 @@ export default class SearchBar extends Component {
 
   // takes text from search bar and queries database for matching results
   // makes an array of markers that are to be passed to setMarkers
-  handleSubmit(e) {
+  handleSubmit(e, cityQuery) {
     console.log('RLLY SEARCHING FOR THIS VALUE RN', this.state.currentCity)
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();  
+    }
+    let city = cityQuery || this.state.currentCity;
     let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
     let options = {
       method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify({job: this.state.currentJob, city: this.state.currentCity})
+      body: JSON.stringify({job: this.state.currentJob, city: city})
     };
     fetch('/indeed', options).then((response) => {
       return response.json().then((data) => {
@@ -60,6 +63,7 @@ export default class SearchBar extends Component {
   handleCitySearch(city) {
     console.log('searching');
     this.setState({currentCity: city});
+    this.handleSubmit(null, city);
   }
 
   render() {

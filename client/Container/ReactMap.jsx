@@ -213,7 +213,7 @@ export default class ReactMap extends Component {
     var cities = this.state.coords;
     this.setState({
       center: cities[city],
-      zoom: 10
+      zoom: 12
     })
   }
 
@@ -222,21 +222,17 @@ export default class ReactMap extends Component {
       center: { lat:  39.5, lng: -98.35 },
       zoom: 4
     });
-    console.log('zooming back', this.state.zoom);
   }
  
 
   render() {
     return (
-      <div>
-
-          {this.state.chartData ?  
-            <div className='chartDiv z-depth-3'>
-              <Chart chartData={this.state.chartData}/> 
-            </div>
-            : null
-          } 
-        
+      <div> 
+      {this.state.chartData ?
+        <div className='chartDiv chartDiv z-depth-3'>
+          <Chart chartData={this.state.chartData}/>
+        </div> : null
+      }
       <SearchBar setMarkers={this.setMarkers} cities={this.state.cities} change={this.change.bind(this)}/>
       <div className='overallContainer'>
       <UserHome selected={this.state.selectedPlace} 
