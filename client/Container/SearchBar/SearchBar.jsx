@@ -36,19 +36,21 @@ export default class SearchBar extends Component {
             jobtitle: job.jobtitle,
             snippet: job.snippet,
             url: job.url,
+            date: job.date,
             jobkey: job.jobkey,
             showInfo: false
           };
           markers.push(marker);
         });
-        console.log('fetching')
+        console.log('fetching');
+        // console.log('markers: ', markers);
         this.props.setMarkers(markers);
       });
     }).catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
   }
-
+  
   handleJobSearch(e) {
     this.setState({currentJob: e.target.value});
     console.log('jobbing')

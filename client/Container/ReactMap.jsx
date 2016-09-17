@@ -9,9 +9,9 @@ import { triggerEvent } from "react-google-maps/lib/utils";
 import SearchBar from './SearchBar/SearchBar.jsx';
 import UserSideBar from './UserSideBar/UserSideBar.jsx';
 import UserHome from './UserHome/UserHome.jsx';
-import D3Window from './D3Window.jsx';
+// import D3Window from './D3Window.jsx';
 import InfoBox from "react-google-maps/lib/addons/InfoBox";
-
+import Chart from './Chart/Chart.jsx';
 /* 
  * This is the modify version of:
  * https://developers.google.com/maps/documentation/javascript/examples/event-arguments
@@ -28,7 +28,16 @@ export default class ReactMap extends Component {
       markers: [],
       register: false,
       loggedIn: false,
-      username: ''
+      username: '',
+      chartData: [
+        {name: 'Page A', uv: 4000, pv: 1398, amt: 2400},
+        {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
+        {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
+        {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
+        {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
+        {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
+        {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
+      ]
     };
 
     this.setMarkers = this.setMarkers.bind(this);
@@ -97,12 +106,40 @@ export default class ReactMap extends Component {
 
   setMarkers(markerArray) {
     this.setState({
-      markers: markerArray
+      markers: markerArray,
     });
+    
+    // create dateObj to increment counters by day
+    var dateObj = {};
+    
+    // loop through each job and set counters and first and last
+    markerArray.forEach(function(job) {
+      job.date = new Date(job.date);
+      var jobString = job.date.toDateString();
+      // create counters for each day a job was created
+      dateObj[jobString] = dateObj[jobString] + 1 || 1;  
+      // console.log('day: ', jobString, " ", dateObj[jobString]);
+    });
+    
+    // loop through dateObj to create chartData
+      var newChartData = [];
+      for (var jobDate in dateObj) {
+          newChartData.push({
+            name: jobDate, 
+            uv: dateObj[jobDate], 
+            pv: dateObj[jobDate], 
+            amt: dateObj[jobDate]
+          });
+      }
+          console.log('newChartData: ', newChartData);
+      
+    // add chartData to SetState
+      this.setState({
+        chartData: newChartData,
+      });
   }
 
-  setSelected(marker) {
-    
+  setSelected(marker) { 
     this.setState({
       selectedPlace: marker
     });
@@ -120,8 +157,6 @@ export default class ReactMap extends Component {
 
   renderInfoWindow(ref, marker) {
     return (
-
-      
       //You can nest components inside of InfoWindow!
       <InfoWindow 
         key={`${ref}_info_window`}
@@ -138,10 +173,11 @@ export default class ReactMap extends Component {
 
 
   render() {
-
-
     return (
       <div>
+        <div className='chartDiv'>
+          <Chart chartData={this.state.chartData}/>
+        </div>
       <SearchBar setMarkers={this.setMarkers}/>
       <div className='overallContainer'>
       <UserHome selected={this.state.selectedPlace} username={this.state.username} LogOutUser={this.LogOutUser} setMarkers={this.setMarkers} markers={this.state.markers}/>
