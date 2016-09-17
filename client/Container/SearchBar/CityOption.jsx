@@ -1,8 +1,8 @@
 import React from 'react';
 
 
-const CityOption = (city) => (
-  <option className="cityOpt" value={city}>{city}</option>
+const CityOption = (props) => (
+  <option className="cityOpt" value={this.props.city}>{this.props.city}</option>
 );
 
 

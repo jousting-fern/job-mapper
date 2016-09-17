@@ -51,20 +51,22 @@ export default class ReactMap extends Component {
     let options = {
       method: 'GET',
     };
-    let cities = [];
-    fetch('/cities', options).then((response) => {
-      console.log('RESPONSE HERE IS, response');
-      return response.json().then((data) => {
-        data.forEach((city) => {
-          cities.push(city);
-        });
-      });
-    }).catch((error) => {
-      console.log('There has been a problem with your fetch operation: ' + error.message);
+    var cities = [];
+    
+    $.ajax({
+      method: 'GET',
+      url: '/cities',
+      success: function (data) {
+        console.log(data);
+        this.setState({cities: JSON.parse(data)});
+      }.bind(this)
     });
+    
 
-    this.setState({cities: cities});
   }
+
+
+    
 
 
 

@@ -17,15 +17,14 @@ class GeoSelector extends React.Component {
 
   render () {
     let cities = this.props.cities;
+    console.log(cities, '<<CITIES ARE');
     return (
       <div className="GeoSelectContainer"> 
-        <form>
           <select>
-            {cities.map((city)=>
-               <CityOption city={city} />
+            {cities.map((city) => 
+               <option value={city}> {city}</option>               
             )}
           </select>
-        </form>
       </div>
     );
   }
