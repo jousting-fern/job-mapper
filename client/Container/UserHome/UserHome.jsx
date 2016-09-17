@@ -259,6 +259,7 @@ export default class UserHome extends React.Component {
         ));
     return (
       <div className='sidebar'>
+        <button onClick={this.props.wholeView}>See whole map</button>
         <div className='profileHead valign-wrapper'>
           <img className="circle profileAvatar valign" src={this.state.avatar} />
           <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
@@ -269,8 +270,8 @@ export default class UserHome extends React.Component {
           <hr></hr>
           <h2>Saved Jobs</h2>
           <hr></hr>
-          <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
-           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
+          <button onClick={() => this.refs.simpleDialog.show()}>Add a job listing</button>
+           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Job Listing Form">
           <form onSubmit={this.handleSubmit.bind(this)}>
             <input id='jobTitle' type="text" name="job" placeholder='Job Title'/>
             <input id='company' type="text" name="job" placeholder='Company'/>
@@ -280,7 +281,7 @@ export default class UserHome extends React.Component {
             <input id='snippet' type="text" name="job" placeholder='Description'/>
             <input id='url' type="text" name="job" placeholder='Url'/>
             <input id='email' type="text" name="job" placeholder='Email'/>
-            <button onClick={this.handleSubmit.bind(this)}>Add job posting</button>
+            <button onClick={this.handleSubmit.bind(this)}>Add job listing</button>
           </form>
            </SkyLight>
         </div>

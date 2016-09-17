@@ -196,10 +196,18 @@ export default class ReactMap extends Component {
     var cities = this.state.coords;
     this.setState({
       center: cities[city],
-      zoom: 12
+      zoom: 10
     })
   }
 
+  wholeView() {
+    this.setState({
+      center: { lat:  39.5, lng: -98.35 },
+      zoom: 4
+    });
+    console.log('zooming back', this.state.zoom);
+  }
+ 
 
   render() {
     return (
@@ -209,7 +217,13 @@ export default class ReactMap extends Component {
         </div>
       <SearchBar setMarkers={this.setMarkers} cities={this.state.cities} change={this.change.bind(this)}/>
       <div className='overallContainer'>
-      <UserHome selected={this.state.selectedPlace} username={this.state.username} LogOutUser={this.LogOutUser} setMarkers={this.setMarkers} markers={this.state.markers}/>
+      <UserHome selected={this.state.selectedPlace} 
+      username={this.state.username} 
+      LogOutUser={this.LogOutUser} 
+      setMarkers={this.setMarkers} 
+      markers={this.state.markers}
+      wholeView={this.wholeView.bind(this)}
+      />
       <GoogleMapLoader
         query={{ libraries: "geometry,drawing,places,visualization" }}
         containerElement={
