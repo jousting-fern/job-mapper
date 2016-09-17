@@ -125,57 +125,37 @@ export default class ReactMap extends Component {
   }
 
   setMarkers(markerArray) {
-    // set map markers
-    // this.setState({
-    //   markers: markerArray,
-    // });
+    this.setState({
+      markers: markerArray,
+    });
     
-
-    // create chart information
-
     // create dateObj to increment counters by day
     var dateObj = {};
     
-    // loop through each job and set counters
+    // loop through each job and set counters and first and last
     markerArray.forEach(function(job) {
-      //create js date obj out of each timestamp
       job.date = new Date(job.date);
-      
-      // create shortened string date rep to act as key
-      job.string = job.date.toLocaleDateString();
-      
+      var jobString = job.date.toDateString();
       // create counters for each day a job was created
-      if ( dateObj[job.string] ) {
-        dateObj[job.string].jobs++;
-      } else {
-        dateObj[job.string] = {
-          date: job.date,
-          jobs: 0
-        }; 
-      }
+      dateObj[jobString] = dateObj[jobString] + 1 || 1;  
+      // console.log('day: ', jobString, " ", dateObj[jobString]);
     });
     
     // loop through dateObj to create chartData
       var newChartData = [];
-      for (var key in dateObj) {
+      for (var jobDate in dateObj) {
           newChartData.push({
-            name: key, 
-            uv: dateObj[key].jobs, 
-            pv: dateObj[key].jobs, 
-            amt: dateObj[key].jobs,
-            date: dateObj[key].date
+            name: jobDate, 
+            uv: dateObj[jobDate], 
+            pv: dateObj[jobDate], 
+            amt: dateObj[jobDate]
           });
       }
-      
-      // sort array by day ascending
-      newChartData.sort(function(a, b){
-        return a.date.getTime() - b.date.getTime();
-      });
+          console.log('newChartData: ', newChartData);
       
     // add chartData to SetState
       this.setState({
-        markers: markerArray,
-        chartData: newChartData
+        chartData: newChartData,
       });
   }
 
