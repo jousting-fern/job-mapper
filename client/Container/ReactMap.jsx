@@ -134,7 +134,11 @@ export default class ReactMap extends Component {
             amt: dateObj[jobDate]
           });
       }
-          console.log('newChartData: ', newChartData);
+
+      console.log('newChartData: ', newChartData);
+      console.log( 'sorted: ', newChartData.sortBy(newChartData, function(a, b){
+        return a.date - b.date;
+      }) );
       
     // add chartData to SetState
       this.setState({
