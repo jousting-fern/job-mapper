@@ -7,7 +7,7 @@ export default class SearchBar extends Component {
     super(props);
     this.state = {
       currentJob: '',
-      currentCity: 'San Francisco'
+      currentCity: ''
     };
 
     this.handleJobSearch = this.handleJobSearch.bind(this);
@@ -66,10 +66,15 @@ export default class SearchBar extends Component {
     this.handleSubmit(null, city);
   }
 
+  // handleSelectChange(event) {
+  //   console.log(event.target.value);
+  //   this.setState({currentCity: event.target.value});
+  // }
+
   render() {
     return (
       <div id='search-bar' className="valign-wrapper">
-        <img className='log' src="./jobsIcon.png"/>
+        <img className='log' src='./jobsIcon.png'/>
         <h1>JobMapper</h1>
         <div className='search-div'>
           <form onSubmit={this.handleSubmit.bind(this)} >
@@ -78,8 +83,11 @@ export default class SearchBar extends Component {
           </form>
         </div>
         <div className='geoSelector valign'>
-          <GeoSelector cities={this.props.cities} change={this.props.change.bind(this)} city={this.handleCitySearch} />
+          <GeoSelector cities={this.props.cities} change={this.props.change.bind(this)} city={this.handleCitySearch.bind(this)}/>
         </div>
+        {/* <div className='searchLabel'>
+        City:<input type="text" name="city" value={this.state.currentCity} onChange={this.handleCitySearch} />
+      </div> */}
       </div>
     );
   }

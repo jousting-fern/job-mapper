@@ -72,7 +72,6 @@ export default class ReactMap extends Component {
           cities.push(city);
           console.log(city);
         });
-        
         this.setState({cities: cities});
       }.bind(this)
     });
@@ -202,7 +201,7 @@ export default class ReactMap extends Component {
               <h3>{marker.company}</h3>
               <h4>{marker.jobtitle}</h4>
               <p>{marker.snippet}</p>
-              <div><a href={marker.url}>Click to View</a></div> 
+              <div><a href={marker.url} target="_blank">Click to View</a></div> 
           </div>        
       </InfoWindow>
       );

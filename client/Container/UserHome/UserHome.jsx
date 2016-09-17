@@ -106,6 +106,7 @@ export default class UserHome extends React.Component {
     .catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
+    Materialize.toast('Your job has been saved!', 1000, 'rounded green');
   }
 
   // removes selected job from user's saved jobs
@@ -260,7 +261,7 @@ export default class UserHome extends React.Component {
         ));
     return (
       <div className='sidebar z-depth-2'>
-        <button onClick={this.props.wholeView}>See whole map</button>
+        <button className="seeWhole" onClick={this.props.wholeView}>See whole map</button>
         <div className='profileHead valign-wrapper'>
           {this.state.username === '' ? null : 
           <div>
@@ -270,12 +271,12 @@ export default class UserHome extends React.Component {
           } 
         </div>
       <LoginButton onSignIn={this.onSignIn.bind(this)}/>
+           <button className="waves-effect waves-light btn postJob" onClick={() => this.refs.simpleDialog.show()}>Post a Job</button>
         <div className='sidebarheaders'>
-            <a onClick={this.addJob.bind(this)} href='#'>Save Selected Job</a>
-          <div className="savedJobs">
-            <i class="material-icons">lock_outline</i> <h2 className="savedJobs">Saved Jobs</h2>
+            <a className="waves-effect waves-light btn saveSelected" onClick={this.addJob.bind(this)} href='#'>Save Selected Job</a>
+          <div className="savedJobs head">
+            <i className="material-icons">system_update_alt</i> <h2 className="savedJobs">Saved Jobs</h2>
           </div>
-           <button className="waves-effect waves-light btn" onClick={() => this.refs.simpleDialog.show()}>Add Job</button>
            <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Job Listing Form">
           <form onSubmit={this.handleSubmit.bind(this)}>
             <input className='validate' id='jobTitle' type="text" name="job" placeholder='Job Title'/>
