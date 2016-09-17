@@ -70,7 +70,7 @@ module.exports = {
 
   // this loads up the user's favorite's list when they login
   getJobs: (req, res) => {
-    console.log(req.body)
+    //console.log(req.body)
     var username = req.body.username;
     User.findOrCreate({ username: username }, (err, foundUser) => {
       if (foundUser) {
