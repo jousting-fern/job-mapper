@@ -69,14 +69,19 @@ export default class ReactMap extends Component {
     let options = {
       method: 'GET',
     };
-    var cities = [];
+
+    var cities = ['Select a City'];
     
     $.ajax({
       method: 'GET',
       url: '/cities',
       success: function (data) {
-        console.log(data);
-        this.setState({cities: JSON.parse(data)});
+        let parsed = JSON.parse(data);
+        console.log(parsed, 'PARSED IS');
+        for ( var i = 0; i < parsed.length; i++ ) {
+          cities.push(parsed[i]);
+        }
+        this.setState({cities: cities});
       }.bind(this)
     });
     
@@ -185,7 +190,7 @@ export default class ReactMap extends Component {
               <h3>{marker.company}</h3>
               <h4>{marker.jobtitle}</h4>
               <p>{marker.snippet}</p>
-              <div><a href={marker.url}>Click to View</a></div> 
+              <div><a href={marker.url} target="_blank">Click to View</a></div> 
           </div>        
       </InfoWindow>
       );

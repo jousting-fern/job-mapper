@@ -7,16 +7,14 @@ export default class SavedJob extends Component {
 
   render() {
     return (
-      <div>
+      <div className="savedJobInstance">
         <h3>{this.props.company}</h3>
         <h4>{this.props.jobtitle}</h4>
         <br/>
         <div>{this.props.snippet}</div>
-        <div>
+        <div className="Links">
           <a href={this.props.url}>Link</a>
-        </div>
-        <div>
-          <a onClick={() => this.props.removeJob(this.props.jobkey)} href='#'>Remove job</a>
+          <a className="removeJob" onClick={() => this.props.removeJob(this.props.jobkey)} href='#'>Remove job</a>
         </div>
         <hr></hr>
       </div>
