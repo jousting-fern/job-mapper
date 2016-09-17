@@ -596,3 +596,22 @@ input.search-box:focus {
 div#my-signin2 {
     margin: 0 auto;
 }
+
+
+.skylight-dialog {
+    width: 50%;
+    height: 536px !important;
+    position: fixed;
+    top: 246px !important;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -25%;
+    border-radius: 2px;
+    z-index: 100;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.137255) 0px 0px 4px, rgba(0, 0, 0, 0.278431) 0px 4px 8px;
+    display: block;
+    background-color: rgb(255, 255, 255);
+}
+
+ 
