@@ -222,7 +222,6 @@ export default class ReactMap extends Component {
       center: { lat:  39.5, lng: -98.35 },
       zoom: 4
     });
-    console.log('zooming back', this.state.zoom);
   }
  
 
