@@ -156,6 +156,10 @@ select {
     background: #36404e;
 }
 
+span.blue-text.text-darken-2 {
+    margin-left: 25px;
+}
+
 /*.chartDiv {
     position: absolute;
     top: 7px;

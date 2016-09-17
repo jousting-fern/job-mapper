@@ -228,7 +228,12 @@ export default class ReactMap extends Component {
     return (
       <div> 
       {this.state.chartData ?
+        
         <div className='chartDiv chartDiv z-depth-3'>
+          <div>
+            <i className="material-icons blue">trending_up</i>
+            <span id='chartTitle' className='blue-text text-darken-2'>Job Postings By Day</span>
+          </div>
           <Chart chartData={this.state.chartData}/>
         </div> : null
       }
