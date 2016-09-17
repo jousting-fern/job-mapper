@@ -29,7 +29,7 @@ export default class ReactMap extends Component {
       register: false,
       loggedIn: false,
       username: '',
-      cities: [],
+      cities: ['Select a city'],
       chartData: null,
       cities: [],
       center: { lat:  39.5, lng: -98.35 },
@@ -61,14 +61,19 @@ export default class ReactMap extends Component {
     let options = {
       method: 'GET',
     };
-    var cities = [];
-    
+    var cities = ['Select a city'];
+
     $.ajax({
       method: 'GET',
       url: '/cities',
       success: function (data) {
         console.log(data);
-        this.setState({cities: JSON.parse(data)});
+        JSON.parse(data).forEach(function(city){
+          cities.push(city);
+          console.log(city);
+        });
+        
+        this.setState({cities: cities});
       }.bind(this)
     });
     
