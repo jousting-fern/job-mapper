@@ -113,6 +113,7 @@ export default class ReactMap extends Component {
   handleMarkerClick(marker) {
     marker.showInfo = true;
     this.setState(this.state);
+    this.setSelected(marker);
   }
   
   handleMarkerClose(marker) {
