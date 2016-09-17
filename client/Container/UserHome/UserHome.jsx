@@ -258,7 +258,7 @@ export default class UserHome extends React.Component {
             removeJob={this.removeJob} />
         ));
     return (
-      <div className='sidebar'>
+      <div className='sidebar z-depth-2'>
         <button onClick={this.props.wholeView}>See whole map</button>
         <div className='profileHead valign-wrapper'>
           <img className="circle profileAvatar valign" src={this.state.avatar} />
@@ -267,13 +267,13 @@ export default class UserHome extends React.Component {
       <LoginButton onSignIn={this.onSignIn.bind(this)}/>
         <div className='sidebarheaders'>
             <a onClick={this.addJob.bind(this)} href='#'>Save Selected Job</a>
-          <hr></hr>
-          <h2>Saved Jobs</h2>
-          <hr></hr>
-          <button onClick={() => this.refs.simpleDialog.show()}>Add a job listing</button>
-           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Job Listing Form">
+          <div className="savedJobs">
+            <i class="material-icons">lock_outline</i> <h2 className="savedJobs">Saved Jobs</h2>
+          </div>
+           <button className="waves-effect waves-light btn" onClick={() => this.refs.simpleDialog.show()}>Add Job</button>
+           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">
           <form onSubmit={this.handleSubmit.bind(this)}>
-            <input id='jobTitle' type="text" name="job" placeholder='Job Title'/>
+            <input className='validate' id='jobTitle' type="text" name="job" placeholder='Job Title'/>
             <input id='company' type="text" name="job" placeholder='Company'/>
             <input id='address' type="text" name="job" placeholder='Address'/>
             <input id='city' type="text" name="job" placeholder='City'/>
@@ -281,7 +281,7 @@ export default class UserHome extends React.Component {
             <input id='snippet' type="text" name="job" placeholder='Description'/>
             <input id='url' type="text" name="job" placeholder='Url'/>
             <input id='email' type="text" name="job" placeholder='Email'/>
-            <button onClick={this.handleSubmit.bind(this)}>Add job listing</button>
+            <button className="waves-effect waves-light btn" onClick={this.handleSubmit.bind(this)}>Add job posting</button>
           </form>
            </SkyLight>
         </div>

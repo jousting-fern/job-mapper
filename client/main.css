@@ -4,7 +4,6 @@ html, body, #app, .application, .overallContainer, #app>div {
 
 body {
   margin: 0px;
-  font-family: 'Open Sans', sans-serif;
 }
 
 input {
@@ -30,6 +29,8 @@ h3, h4 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 50%;
+  margin-left:40px;
 }
 
 #search-bar {
@@ -145,4 +146,110 @@ select {
     box-shadow: rgba(0, 0, 0, 0.137255) 0px 0px 4px, rgba(0, 0, 0, 0.278431) 0px 4px 8px;
     display: block;
     background-color: rgb(255, 255, 255);
+}
+
+#search-bar {
+    display: flex;
+    min-height: 86px;
+    padding-left: 15px;
+    border: 1px solid rgb(200, 200, 200);
+    background: #36404e;
+}
+
+/*.chartDiv {
+    position: absolute;
+    top: 7px;
+    right: 6px;
+    color: white !important;
+}
+*/
+h1 {
+    font-size: 20px;
+    color: #fff;
+}
+
+img.log {
+    width: 40px;
+    height: 100%;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+div#search-bar {
+    border: none;
+}
+
+input.search-box {
+    color: #fff;
+}
+
+.sidebar {
+    background: #8090A7;
+
+}
+
+img.circle.profileAvatar.valign {
+    width: 55px;
+}
+
+.chartDiv {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    color: white !important;
+    z-index: 999;
+    background: #d8d8d8;
+    padding: 10px;
+    border-top: solid 4px #36404e;
+    border-left: solid 4px #36404e;
+}
+
+#toast-container {
+    bottom: 130px !important;
+    right: 10px !important;
+    max-width: 86%;
+}
+
+.chartDiv {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    color: white !important;
+    z-index: 300;
+    background: #ffffff;
+    padding: 10px;
+    border-top: solid 2px #d0d0d0;
+    border-left: solid 2px #d0d0d0;
+    border-top-left-radius: 15px;
+}
+
+.profileHead.valign-wrapper {
+    position: absolute;
+    margin-top: -90px;
+    right: 5px;
+}
+
+h3.welcomeTxt.valign {
+    color: white;
+    font-size: 13px;
+    margin-left: 12px;
+}
+
+html, body, #app, .application, .overallContainer, #app>div {
+    height: 100%;
+    overflow: hidden;
+}
+
+img.save {
+    width: 20px;
+    margin-top: 3px;
+    position: absolute;
+}
+
+h2.savedJobs {
+    display: inline;
+    color: #fff;
+    font-size: 18px;
+    margin-left: 30px;
+    clear: right !Important;
 }

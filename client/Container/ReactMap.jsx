@@ -212,7 +212,7 @@ export default class ReactMap extends Component {
   render() {
     return (
       <div>
-        <div className='chartDiv'>
+        <div className='chartDiv chartDiv z-depth-3'>
           <Chart chartData={this.state.chartData}/>
         </div>
       <SearchBar setMarkers={this.setMarkers} cities={this.state.cities} change={this.change.bind(this)}/>
