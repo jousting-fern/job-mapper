@@ -588,3 +588,7 @@ input.search-box:focus {
     top: 10px;
     right: 5px;
 }
+
+div#my-signin2 {
+    margin: 0 auto;
+}
