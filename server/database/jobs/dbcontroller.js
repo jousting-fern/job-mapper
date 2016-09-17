@@ -9,12 +9,11 @@ var salt = function (chars) {
 
 module.exports = {
   retrieveAll: (req, res) => {
-    var job = new RegExp('', 'i');
     let searchString = req.body.job;
-    var re = new RegExp(searchString, 'i');
+    var job = new RegExp(searchString, 'i');
     Job.find()
       .or([{ 'jobtitle': { $regex: job } }, { 'snippet': { $regex: job } }])
-      .and([{'city': { $regex: re } }]) 
+      .and([{'city': req.body.city}]) 
       .then((results) => {
         res.status(200)
           .send(JSON.stringify(results));
@@ -22,7 +21,7 @@ module.exports = {
   },
   
   userCreate: (req, res) => {
-    
+    console.log(req, 'THIS IS THE STUFF')
     Job.create({
       jobtitle: req.body.jobTitle,
       company: req.body.company,
