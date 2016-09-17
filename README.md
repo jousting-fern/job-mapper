@@ -5,12 +5,12 @@
 ### Description
 Maps job by precise location using a combination of the Indeed API and Google Places API.
 
-[![Stories in Ready](https://badge.waffle.io/Atomic-Cicada/job-mapper.svg?label=ready&title=Ready)](http://waffle.io/Atomic-Cicada/job-mapper)
+[![Stories in Ready](https://badge.waffle.io/jousting-fern/job-mapper.svg?label=ready&title=Ready)](https://waffle.io/jousting-fern/job-mapper)
 
 ### Team
-  - __Product Owner__: [Aljosha Novakovic](https://github.com/ollynov)
-  - __Scrum Master__: [Andrew Kim](https://github.com/andrewk17)
-  - __Development Team Member__: [Kevin Brosamle](https://github.com/kevinbrosamle)
+  - __Product Owner__: Dustin Kimmel
+  - __Scrum Master__: Drew Kosta
+  - __Development Team Member__: Bryan Mojica, Andrew Sutedja
 
 ## Tech Stack
 M - MongoDB
@@ -39,9 +39,6 @@ N - Node
   1. [Installing Dependencies](#installing-dependencies)
   2. [Tasks](#tasks)
 
-4. [Suggested Improvements](#suggested-improvements)
-5. [Contributing](#contributing)
-
 ## Usage
 
 ## Requirements
@@ -64,27 +61,3 @@ npm install
 npm run dbworker
 ```
 Runs worker to populate database with new jobs
-
-## Suggested Improvements
-
-Client Side:
-- Add City to Search
-- Have search filters (date added, etc)
-- Return additional results
-- Include User Profile page (saved jobs, user settings, etc.)
-
-UX:
-- Check for already registered username before the user plugs in password
-
-Performance:
-- Refactor components so that only top-level components utilize state. (Ex. all 3 UserSideBar components can be refactored for only 1 top level component to hold state)
-- Save query + city to database whenever user searches a city/query combo that has never been searched before
-
-Fun Ideas:
-- Historical listings (see all listings in SF in 2000 vs 2016 )
-- Heatmaps
-- Recommended jobs section (according to the previous jobs the user has saved)
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
