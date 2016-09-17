@@ -261,8 +261,12 @@ export default class UserHome extends React.Component {
       <div className='sidebar z-depth-2'>
         <button onClick={this.props.wholeView}>See whole map</button>
         <div className='profileHead valign-wrapper'>
-          <img className="circle profileAvatar valign" src={this.state.avatar} />
-          <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
+          {this.state.username === '' ? null : 
+          <div>
+            <img className="circle profileAvatar valign" src={this.state.avatar} />
+            <h3 className="welcomeTxt valign">Welcome, {this.state.firstname}</h3>
+          </div>
+          } 
         </div>
       <LoginButton onSignIn={this.onSignIn.bind(this)}/>
         <div className='sidebarheaders'>
