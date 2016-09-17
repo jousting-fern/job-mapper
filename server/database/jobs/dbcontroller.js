@@ -22,7 +22,7 @@ module.exports = {
   },
   
   userCreate: (req, res) => {
-    
+    console.log(req.body, 'THIS IS THE STUFF')
     Job.create({
       jobtitle: req.body.jobTitle,
       company: req.body.company,
