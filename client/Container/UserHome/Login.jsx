@@ -23,7 +23,7 @@ export default class LoginButton extends React.Component {
       'longtitle': true,
       'theme': 'light',
       'onsuccess': this.props.onSignIn
-    })
+    });
   }
 
   componentDidMount () {

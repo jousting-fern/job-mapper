@@ -18,6 +18,7 @@ export default class SearchBar extends Component {
   // takes text from search bar and queries database for matching results
   // makes an array of markers that are to be passed to setMarkers
   handleSubmit(e) {
+    console.log('RLLY SEARCHING FOR THIS VALUE RN', this.state.currentCity)
     e.preventDefault();
     let myHeaders = new Headers({'Content-Type': 'application/json; charset=utf-8'});
     let options = {
@@ -43,36 +44,42 @@ export default class SearchBar extends Component {
           markers.push(marker);
         });
         console.log('fetching');
-        // console.log('markers: ', markers);
         this.props.setMarkers(markers);
       });
     }).catch((error) => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
+    Materialize.toast('Fetching jobs!', 1000, 'rounded green');
   }
   
   handleJobSearch(e) {
     this.setState({currentJob: e.target.value});
-    console.log('jobbing')
+    console.log('jobbing');
   }
 
   handleCitySearch(e) {
-    console.log('searching')
+    console.log('searching');
     this.setState({currentCity: e.target.value});
+    console.log('CURRENT CITY NOW SEARCHING FOR IS ', this.state.currentCity);
   }
+
+  // handleSelectChange(event) {
+  //   console.log(event.target.value);
+  //   this.setState({currentCity: event.target.value});
+  // }
 
   render() {
     return (
       <div id='search-bar'>
         <h1>JobMapper</h1>
         <div className='search-div'>
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form onSubmit={this.handleSubmit.bind(this)} >
             <input className='search-box' type="text" name="job" value={this.state.currentJob} placeholder='Search Job
-            ' onChange={this.handleJobSearch}/>
+            ' onChange={this.handleJobSearch} />
           </form>
         </div>
         <div className='geoSelector'>
-          <GeoSelector />
+          <GeoSelector cities={this.props.cities} handleCitySearch={this.handleCitySearch.bind(this)} />
         </div>
         {/* <div className='searchLabel'>
         City:<input type="text" name="city" value={this.state.currentCity} onChange={this.handleCitySearch} />
