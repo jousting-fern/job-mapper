@@ -10,7 +10,7 @@ module.exports = (app, express) => {
   });
 
   app.get('/cities', (req, res) => {
-    res.send(JSON.stringify(['san francisco', 'los angeles', 'san jose', 'san diego', 'new york', 'austin', 'boston', 'denver', 'seattle', 'chicago']));
+    res.send(JSON.stringify(['San Francisco', 'Los Angeles', 'San Jose', 'San Diego', 'New York', 'Austin', 'Boston', 'Denver', 'Seattle', 'Chicago']));
   });
 
   app.post('/users', (req, res) => {
